@@ -167,7 +167,7 @@ def get_next_channel_index(file_df):
 
 if __name__ == "__main__":
     global path
-    path = 'DATA/videosinfo'
+    path = '../DATA/videosinfo'
     file_name = path+'/Final_ChannelID'+str(KEY)+'.csv'
     # file_name = 'DATA/ChannelIDTrending.csv'
     output_name = path+'/Final_VideosData'+str(KEY)+'.csv'

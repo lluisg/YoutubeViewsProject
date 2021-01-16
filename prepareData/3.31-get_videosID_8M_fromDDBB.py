@@ -8,7 +8,7 @@ import tensorflow as tf
 from urllib.request import urlopen
 
 if __name__ == "__main__":
-    files = os.listdir('YT8M/.')
+    files = os.listdir('../YT8M/.')
     train_files = [ x for x in files if x.startswith('train')]
     valid_files = [ x for x in files if x.startswith('valid')]
     test_files = [ x for x in files if x.startswith('test')]
@@ -39,4 +39,4 @@ if __name__ == "__main__":
     final_pseudoids = list(set_final_pseudoids)
     print('{} total unique video pseudo ids'.format(len(final_pseudoids)))
     df = pd.DataFrame(final_pseudoids, columns =['pseudoId'])
-    df.to_csv('DATA/videospseudoID8M.csv', encoding='utf-8', index=False)
+    df.to_csv('../DATA/videospseudoID8M.csv', encoding='utf-8', index=False)

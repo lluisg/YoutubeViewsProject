@@ -17,7 +17,7 @@ def read_file(filename, check_r):
 
 if __name__ == "__main__":
     lite = False
-    file = 'DATA/videosinfo/Final_VideosData_merged.csv'
+    file = '../DATA/videosinfo/Final_VideosData_merged.csv'
     # file = 'DATA/Final_VideosData.csv'
 
     if not lite:
@@ -57,4 +57,4 @@ if __name__ == "__main__":
         print('After the cleaning we have {} videos from {} different channels, from which {} are unique'.format(df_copy.shape[0], len(list_channels_after), len(list_channels_after_unique)))
 
 
-        df_copy.to_csv('DATA/Final_videosDataClean.csv', encoding='utf-8', index=False)
+        df_copy.to_csv('../DATA/Final_videosDataClean.csv', encoding='utf-8', index=False)

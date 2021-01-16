@@ -7,7 +7,7 @@ list_channels = []
 list_errors = []
 for lang in langs:
     print('Reading ', lang)
-    df_videos = pd.read_csv('DDBB_Trending/'+lang+'videos.csv', encoding = "ISO-8859-1")
+    df_videos = pd.read_csv('../DDBB_Trending/'+lang+'videos.csv', encoding = "ISO-8859-1")
     df_out = df_videos[['channel_title']]
     error_encoding = 0
 
@@ -30,7 +30,7 @@ list_channels_nodupli = list(set_channels)
 print('without duplicates: ', len(list_channels_nodupli))
 
 df_channels = pd.DataFrame(list_channels_nodupli,columns=['channel_title'])
-df_channels.to_csv('DATA/AllTrendingChannels.csv', encoding='utf-8', index=True)
+df_channels.to_csv('../DATA/AllTrendingChannels.csv', encoding='utf-8', index=True)
 
 #errors version
 list_errors = list(filter(None, list_errors))
@@ -40,4 +40,4 @@ list_errors_nodupli = list(set_errors)
 print('errors without duplicates: ', len(list_errors_nodupli))
 
 df_errors = pd.DataFrame(list_errors,columns=['channel_title'])
-df_errors.to_csv('DATA/AllTrendingErrors.csv', encoding='utf-8', index=True)
+df_errors.to_csv('../DATA/AllTrendingErrors.csv', encoding='utf-8', index=True)

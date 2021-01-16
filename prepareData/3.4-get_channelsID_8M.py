@@ -28,19 +28,19 @@ def get_youtube_channelId(video_id):
     video_data = youtube.videos().list(part="snippet", id=video_id).execute()
 
     if video_data['pageInfo']['totalResults'] == 0:
-        with open('DATA/list_8M_channelsId_notF.txt', 'a') as f:
+        with open('../DATA/list_8M_channelsId_notF.txt', 'a') as f:
             f.write(video_id+'\n')
             print('-- video not found')
             return None
 
-    with open('DATA/list_8M_channelsId.txt', 'a') as f:
+    with open('../DATA/list_8M_channelsId.txt', 'a') as f:
         f.write(video_id+'\n')
 
     channel_id = video_data['items'][0]['snippet']['channelId']
     return channel_id
 
 def check_channel_found(name):
-    with open('DATA/list_8M_channelsId.txt', 'r') as f:
+    with open('../DATA/list_8M_channelsId.txt', 'r') as f:
         content_i = f.readlines()
     list_channels = [line.rstrip('\n') for line in content_i]
 
@@ -51,15 +51,15 @@ def check_channel_found(name):
 
 
 def get_next_channel_index():
-    with open('DATA/list_8M_channelsId.txt', 'r') as f:
+    with open('../DATA/list_8M_channelsId.txt', 'r') as f:
         content_i = f.readlines()
     list_channels = [line.rstrip('\n') for line in content_i]
-    with open('DATA/list_8M_channelsId_notF.txt', 'r') as f:
+    with open('../DATA/list_8M_channelsId_notF.txt', 'r') as f:
         content_not_f = f.readlines()
     list_notfound_channels = [line.rstrip('\n') for line in content_not_f]
 
     if len(list_channels) > 0 or len(list_notfound_channels) > 0:
-        df_movies = pd.read_csv('DATA/videosID8M_final.csv', encoding = "ISO-8859-1")
+        df_movies = pd.read_csv('../DATA/videosID8M_final.csv', encoding = "ISO-8859-1")
         found = False
 
         for index, row in df_movies.iterrows():
@@ -83,10 +83,10 @@ if __name__ == "__main__":
     print('Starting from: ', index)
 
     # Retrieve the channels data from the DDBB
-    df_movies = pd.read_csv('DATA/videosID8M_final.csv', encoding = "utf-8")
+    df_movies = pd.read_csv('../DATA/videosID8M_final.csv', encoding = "utf-8")
 
     # Creating pandas data frame appending to the previously obtained data
-    if os.path.isfile('DATA/ChannelID8M.csv'):
+    if os.path.isfile('../DATA/ChannelID8M.csv'):
         df_previous = pd.read_csv('DATA/ChannelID8M.csv', encoding = "utf-8")
         list_channelID = df_previous['channelId'].tolist()
     else:
@@ -104,7 +104,7 @@ if __name__ == "__main__":
 
                 # Save into csv format in the desired location
                 df_previous = pd.DataFrame(list_channelID, columns=['channelId'])
-                df_previous.to_csv('DATA/ChannelID8M.csv', encoding='utf-8', index=True)
+                df_previous.to_csv('../DATA/ChannelID8M.csv', encoding='utf-8', index=True)
             index = get_next_channel_index()
 
     print("you reached the last element from the videosID8M_final file")

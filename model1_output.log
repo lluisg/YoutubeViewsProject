@@ -1,0 +1,185 @@
+2021-01-16 19:20:38,537	INFO services.py:1092 -- View the Ray dashboard at [1m[32mhttp://127.0.0.1:8265[39m[22m
+2021-01-16 19:21:47,250	INFO tune.py:439 -- Total run time: 69.80 seconds (44.79 seconds for the tuning loop).
+removing /home/usuaris/veu/lluis.guardia/youtubeViewsProject/model1/training_output
+Working on path: /home/usuaris/veu/lluis.guardia/youtubeViewsProject/model1
+--- Data already existing
+--- Model from 0
+== Status ==
+Memory usage on this node: 13.6/251.8 GiB
+Using AsyncHyperBand: num_stopped=0
+Bracket: Iter 2.000: None | Iter 1.000: None
+Resources requested: 4/40 CPUs, 2/2 GPUs, 0.0/159.42 GiB heap, 0.0/49.9 GiB objects (0/1.0 accelerator_type:GTX)
+Result logdir: /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-16_19-21-02
+Number of trials: 1/2 (1 RUNNING)
++-------------------+----------+-------+-----------+----------+-------------+---------------+-------------+---------+
+| Trial name        | status   | loc   |   dropout |   epochs |   hidden_fc |   hidden_lstm |          lr |   scale |
+|-------------------+----------+-------+-----------+----------+-------------+---------------+-------------+---------|
+| inner_f8b5a_00000 | RUNNING  |       |      0.15 |      100 |         256 |           256 | 1.28778e-05 |    0.94 |
++-------------------+----------+-------+-----------+----------+-------------+---------------+-------------+---------+
+
+
+[2m[36m(pid=4259)[0m Epoch: 1, Loss: 63.723079681396484
+[2m[36m(pid=4259)[0m Epoch: 2, Loss: 63.924781799316406
+[2m[36m(pid=4259)[0m Epoch: 3, Loss: 63.949947357177734
+[2m[36m(pid=4259)[0m Epoch: 4, Loss: 63.98053741455078
+[2m[36m(pid=4259)[0m Epoch: 5, Loss: 63.89963912963867
+[2m[36m(pid=4259)[0m Validation Loss: 22.9718017578125, Accuracy: 0.0
+Result for inner_f8b5a_00000:
+  date: 2021-01-16_19-21-26
+  done: false
+  experiment_id: a477fb60189e41199d0f866bd1a15e2d
+  experiment_tag: 0_dropout=0.15,epochs=100,hidden_fc=256,hidden_lstm=256,lr=1.2878e-05,scale=0.94
+  hostname: veuc01
+  iterations_since_restore: 1
+  node_ip: 172.26.105.101
+  pid: 4259
+  should_checkpoint: true
+  time_since_restore: 20.342645168304443
+  time_this_iter_s: 20.342645168304443
+  time_total_s: 20.342645168304443
+  timestamp: 1610824886
+  timesteps_since_restore: 0
+  training_iteration: 1
+  trial_id: f8b5a_00000
+  valid_acc: 0.0
+  valid_loss: 22.9718017578125
+  
+== Status ==
+Memory usage on this node: 15.9/251.8 GiB
+Using AsyncHyperBand: num_stopped=0
+Bracket: Iter 2.000: None | Iter 1.000: -22.9718017578125
+Resources requested: 4/40 CPUs, 2/2 GPUs, 0.0/159.42 GiB heap, 0.0/49.9 GiB objects (0/1.0 accelerator_type:GTX)
+Current best trial: f8b5a_00000 with valid_loss=22.9718017578125 and parameters={'input': 4, 'hidden_lstm': 256, 'hidden_fc': 256, 'output': 99, 'dropout': 0.15000000000000002, 'lr': 1.2877849127221594e-05, 'epochs': 100, 'max_epochs': 2, 'scale': 0.9400000000000001, 'path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model1', 'data_path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model1/data', 'output_path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model1/training_output'}
+Result logdir: /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-16_19-21-02
+Number of trials: 2/2 (1 PENDING, 1 RUNNING)
++-------------------+----------+---------------------+-----------+----------+-------------+---------------+-------------+---------+--------+------------------+--------------+-------------+
+| Trial name        | status   | loc                 |   dropout |   epochs |   hidden_fc |   hidden_lstm |          lr |   scale |   iter |   total time (s) |   valid_loss |   valid_acc |
+|-------------------+----------+---------------------+-----------+----------+-------------+---------------+-------------+---------+--------+------------------+--------------+-------------|
+| inner_f8b5a_00000 | RUNNING  | 172.26.105.101:4259 |      0.15 |      100 |         256 |           256 | 1.28778e-05 |    0.94 |      1 |          20.3426 |      22.9718 |           0 |
+| inner_f8b5a_00001 | PENDING  |                     |      0.1  |     1000 |         128 |           512 | 0.000753828 |    0.96 |        |                  |              |             |
++-------------------+----------+---------------------+-----------+----------+-------------+---------------+-------------+---------+--------+------------------+--------------+-------------+
+
+
+[2m[36m(pid=4259)[0m Epoch: 6, Loss: 64.04228973388672
+[2m[36m(pid=4259)[0m Epoch: 7, Loss: 63.784698486328125
+[2m[36m(pid=4259)[0m Epoch: 8, Loss: 63.840633392333984
+[2m[36m(pid=4259)[0m Epoch: 9, Loss: 63.677085876464844
+[2m[36m(pid=4259)[0m Epoch: 10, Loss: 63.787418365478516
+[2m[36m(pid=4259)[0m Validation Loss: 22.964677810668945, Accuracy: 0.0
+Result for inner_f8b5a_00000:
+  date: 2021-01-16_19-21-26
+  done: true
+  experiment_id: a477fb60189e41199d0f866bd1a15e2d
+  experiment_tag: 0_dropout=0.15,epochs=100,hidden_fc=256,hidden_lstm=256,lr=1.2878e-05,scale=0.94
+  hostname: veuc01
+  iterations_since_restore: 2
+  node_ip: 172.26.105.101
+  pid: 4259
+  should_checkpoint: true
+  time_since_restore: 20.57936692237854
+  time_this_iter_s: 0.23672175407409668
+  time_total_s: 20.57936692237854
+  timestamp: 1610824886
+  timesteps_since_restore: 0
+  training_iteration: 2
+  trial_id: f8b5a_00000
+  valid_acc: 0.0
+  valid_loss: 22.964677810668945
+  
+[2m[36m(pid=4259)[0m Outputs training saved on epoch 10
+[2m[36m(pid=4256)[0m Epoch: 1, Loss: 64.38491821289062
+[2m[36m(pid=4256)[0m Epoch: 2, Loss: 63.08379364013672
+[2m[36m(pid=4256)[0m Epoch: 3, Loss: 61.97770309448242
+[2m[36m(pid=4256)[0m Epoch: 4, Loss: 60.9737663269043
+[2m[36m(pid=4256)[0m Epoch: 5, Loss: 59.614013671875
+[2m[36m(pid=4256)[0m Validation Loss: 22.549657821655273, Accuracy: 0.0
+Result for inner_f8b5a_00001:
+  date: 2021-01-16_19-21-46
+  done: false
+  experiment_id: f9906a1c8e3b4743a047d4145dd3cf45
+  experiment_tag: 1_dropout=0.1,epochs=1000,hidden_fc=128,hidden_lstm=512,lr=0.00075383,scale=0.96
+  hostname: veuc01
+  iterations_since_restore: 1
+  node_ip: 172.26.105.101
+  pid: 4256
+  should_checkpoint: true
+  time_since_restore: 15.768278121948242
+  time_this_iter_s: 15.768278121948242
+  time_total_s: 15.768278121948242
+  timestamp: 1610824906
+  timesteps_since_restore: 0
+  training_iteration: 1
+  trial_id: f8b5a_00001
+  valid_acc: 0.0
+  valid_loss: 22.549657821655273
+  
+== Status ==
+Memory usage on this node: 15.8/251.8 GiB
+Using AsyncHyperBand: num_stopped=1
+Bracket: Iter 2.000: None | Iter 1.000: -22.760729789733887
+Resources requested: 4/40 CPUs, 2/2 GPUs, 0.0/159.42 GiB heap, 0.0/49.9 GiB objects (0/1.0 accelerator_type:GTX)
+Current best trial: f8b5a_00001 with valid_loss=22.549657821655273 and parameters={'input': 4, 'hidden_lstm': 512, 'hidden_fc': 128, 'output': 99, 'dropout': 0.1, 'lr': 0.0007538284087070695, 'epochs': 1000, 'max_epochs': 2, 'scale': 0.96, 'path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model1', 'data_path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model1/data', 'output_path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model1/training_output'}
+Result logdir: /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-16_19-21-02
+Number of trials: 2/2 (1 RUNNING, 1 TERMINATED)
++-------------------+------------+---------------------+-----------+----------+-------------+---------------+-------------+---------+--------+------------------+--------------+-------------+
+| Trial name        | status     | loc                 |   dropout |   epochs |   hidden_fc |   hidden_lstm |          lr |   scale |   iter |   total time (s) |   valid_loss |   valid_acc |
+|-------------------+------------+---------------------+-----------+----------+-------------+---------------+-------------+---------+--------+------------------+--------------+-------------|
+| inner_f8b5a_00001 | RUNNING    | 172.26.105.101:4256 |      0.1  |     1000 |         128 |           512 | 0.000753828 |    0.96 |      1 |          15.7683 |      22.5497 |           0 |
+| inner_f8b5a_00000 | TERMINATED |                     |      0.15 |      100 |         256 |           256 | 1.28778e-05 |    0.94 |      2 |          20.5794 |      22.9647 |           0 |
++-------------------+------------+---------------------+-----------+----------+-------------+---------------+-------------+---------+--------+------------------+--------------+-------------+
+
+
+[2m[36m(pid=4256)[0m Epoch: 6, Loss: 58.47956848144531
+[2m[36m(pid=4256)[0m Epoch: 7, Loss: 56.30112075805664
+[2m[36m(pid=4256)[0m Epoch: 8, Loss: 55.860374450683594
+[2m[36m(pid=4256)[0m Epoch: 9, Loss: 53.94515609741211
+[2m[36m(pid=4256)[0m Epoch: 10, Loss: 51.7232666015625
+[2m[36m(pid=4256)[0m Validation Loss: 22.031526565551758, Accuracy: 0.0
+Result for inner_f8b5a_00001:
+  date: 2021-01-16_19-21-47
+  done: true
+  experiment_id: f9906a1c8e3b4743a047d4145dd3cf45
+  experiment_tag: 1_dropout=0.1,epochs=1000,hidden_fc=128,hidden_lstm=512,lr=0.00075383,scale=0.96
+  hostname: veuc01
+  iterations_since_restore: 2
+  node_ip: 172.26.105.101
+  pid: 4256
+  should_checkpoint: true
+  time_since_restore: 16.235532999038696
+  time_this_iter_s: 0.4672548770904541
+  time_total_s: 16.235532999038696
+  timestamp: 1610824907
+  timesteps_since_restore: 0
+  training_iteration: 2
+  trial_id: f8b5a_00001
+  valid_acc: 0.0
+  valid_loss: 22.031526565551758
+  
+[2m[36m(pid=4256)[0m Outputs training saved on epoch 10
+== Status ==
+Memory usage on this node: 15.8/251.8 GiB
+Using AsyncHyperBand: num_stopped=2
+Bracket: Iter 2.000: None | Iter 1.000: -22.760729789733887
+Resources requested: 0/40 CPUs, 0/2 GPUs, 0.0/159.42 GiB heap, 0.0/49.9 GiB objects (0/1.0 accelerator_type:GTX)
+Current best trial: f8b5a_00001 with valid_loss=22.031526565551758 and parameters={'input': 4, 'hidden_lstm': 512, 'hidden_fc': 128, 'output': 99, 'dropout': 0.1, 'lr': 0.0007538284087070695, 'epochs': 1000, 'max_epochs': 2, 'scale': 0.96, 'path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model1', 'data_path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model1/data', 'output_path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model1/training_output'}
+Result logdir: /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-16_19-21-02
+Number of trials: 2/2 (2 TERMINATED)
++-------------------+------------+-------+-----------+----------+-------------+---------------+-------------+---------+--------+------------------+--------------+-------------+
+| Trial name        | status     | loc   |   dropout |   epochs |   hidden_fc |   hidden_lstm |          lr |   scale |   iter |   total time (s) |   valid_loss |   valid_acc |
+|-------------------+------------+-------+-----------+----------+-------------+---------------+-------------+---------+--------+------------------+--------------+-------------|
+| inner_f8b5a_00000 | TERMINATED |       |      0.15 |      100 |         256 |           256 | 1.28778e-05 |    0.94 |      2 |          20.5794 |      22.9647 |           0 |
+| inner_f8b5a_00001 | TERMINATED |       |      0.1  |     1000 |         128 |           512 | 0.000753828 |    0.96 |      2 |          16.2355 |      22.0315 |           0 |
++-------------------+------------+-------+-----------+----------+-------------+---------------+-------------+---------+--------+------------------+--------------+-------------+
+
+
+Best trial config: {'input': 4, 'hidden_lstm': 512, 'hidden_fc': 128, 'output': 99, 'dropout': 0.1, 'lr': 0.0007538284087070695, 'epochs': 1000, 'max_epochs': 2, 'scale': 0.96, 'path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model1', 'data_path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model1/data', 'output_path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model1/training_output'}
+Best trial final validation loss: 22.031526565551758
+Best trial final validation accuracy: 0.0
+Model saved
+
+The model outputs 0.00% (0/5) of correct values with a margin of 0
+The model outputs 20.00% (1/5) of correct values with a margin of 1
+The model outputs 20.00% (1/5) of correct values with a margin of 2
+The model outputs 60.00% (3/5) of correct values with a margin of 10
+Best trial test set accuracy: 0.6
+FINISHED TRAINING AND TESTING!

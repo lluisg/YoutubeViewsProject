@@ -3,7 +3,7 @@ import glob
 import pandas as pd
 
 base_file = 'Final_VideosData'
-path = 'DATA/videosinfo/'
+path = '../DATA/videosinfo/'
 
 def read_file_r(filename, check_r):
     print('Reading', filename)

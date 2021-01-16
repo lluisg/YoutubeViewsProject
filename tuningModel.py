@@ -94,7 +94,7 @@ def value2tens(value):
 
 
 def prepareData(data_path):
-    df = pd.read_csv('youtubeVisits/DATA/Final_videosDataClean.csv')
+    df = pd.read_csv('DATA/Final_videosDataClean.csv')
     print(df.head())
 
     #-------------------Mini version--------------------------
@@ -150,6 +150,7 @@ def prepareData(data_path):
     publication_channel = []
     ratio_channel = []
     duration_channel = []
+    comments_channel = []
     for channel in list_channelId:
         ratio_likes = []
         viewsvideo = [int(value2tens(roundVisit(visit))) for visit in df.loc[df['channelId'] == channel]['viewCount'].tolist()]
@@ -157,6 +158,8 @@ def prepareData(data_path):
         likesvideo = df.loc[df['channelId'] == channel]['likeCount'].tolist()
         dislikesvideo = df.loc[df['channelId'] == channel]['dislikeCount'].tolist()
         durationvideo = [convertDuration(time) for time in df.loc[df['channelId'] == channel]['duration'].tolist()]
+        commentsvideo = df.loc[df['channelId'] == channel]['commentCount'].tolist()
+
 
         for likes, dislikes in zip(likesvideo, dislikesvideo):
             if likes == 0 and dislikes == 0:
@@ -168,11 +171,13 @@ def prepareData(data_path):
         publication_channel.append(publicationvideo)
         ratio_channel.append(likesvideo)
         duration_channel.append(durationvideo)
+        comments_channel.append(commentsvideo)
 
     print('views: ', np.shape(views_channel),
             'publi: ', np.shape(publication_channel),
             'ratio likes: ', np.shape(ratio_channel),
-            'duration: ', np.shape(duration_channel))
+            'duration: ', np.shape(duration_channel),
+            'comments: ', np.shape(comments_channel))
 
     del list_videosId
     del set_videosId
@@ -183,22 +188,40 @@ def prepareData(data_path):
     print('Max value of views:', max([max(i) for i in views_channel]))
 
     group_input = []
+    used = 'The model will use the features:'
     if '1' in args.input_elements:
         group_input.append(views_channel)
+        used += ' views'
     if '2' in args.input_elements:
         group_input.append(duration_channel)
+        used += ' duration'
     if '3' in args.input_elements:
         group_input.append(publication_channel)
+        used += ' publication'
     if '4' in args.input_elements:
         group_input.append(ratio_channel)
+        used += ' ratio'
+    if '5' in args.input_elements:
+        group_input.append(comments_channel)
+        used += ' comments'
+    print(used)
 
     X = []
     y = []
-    if len(args.input_elements) == 4:
-        for views, duration, publi, ratio in zip(*group_input):
+    if len(args.input_elements) == 5:
+        for views, duration, publi, ratio, comments in zip(*group_input):
             elementX = []
-            for v, d, p, r in zip(views, duration, publi, ratio):
-                elementX.append([v, d, p, r])
+            for v, d, p, r, c in zip(views, duration, publi, ratio, comments):
+                elementX.append([v, d, p, r, c])
+
+            X.append(elementX[-10:-1])
+            y.append(views[-1])
+
+    elif len(args.input_elements) == 4:
+        for views, el2, el3, el4 in zip(*group_input):
+            elementX = []
+            for v, e2, e3, e4 in zip(views, el2, el3, el4):
+                elementX.append([v, e2, e3, e4])
 
             X.append(elementX[-10:-1])
             y.append(views[-1])
@@ -260,9 +283,9 @@ def prepareData(data_path):
     valid_sample_ds = torch.utils.data.TensorDataset(torch.from_numpy(Xvalid_batch).float(), torch.from_numpy(yvalid_batch).float().type(torch.long))
     test_sample_ds = torch.utils.data.TensorDataset(torch.from_numpy(Xtest_batch).float(), torch.from_numpy(ytest_batch).float().type(torch.long))
 
-    train_loader = DataLoader(train_sample_ds, shuffle=True, batch_size=args.batch_size)
-    valid_loader = DataLoader(valid_sample_ds, shuffle=True, batch_size=args.batch_size)
-    test_loader = DataLoader(test_sample_ds, shuffle=True, batch_size=args.batch_size)
+    train_loader = DataLoader(train_sample_ds, shuffle=False, batch_size=args.batch_size)
+    valid_loader = DataLoader(valid_sample_ds, shuffle=False, batch_size=args.batch_size)
+    test_loader = DataLoader(test_sample_ds, shuffle=False, batch_size=args.batch_size)
 
     torch.save(train_loader, data_path+'/train_dataloader.pth')
     torch.save(valid_loader, data_path+'/valid_dataloader.pth')
@@ -278,16 +301,18 @@ def loadData(data_path):
     return train_loader, valid_loader, test_loader
 
 def save_values(values, name, path):
-    with open(path+name+'.txt', 'w+') as f:
+    with open(os.path.join(path, name+'.txt'), 'w+') as f:
         f.write(str(values))
 
-def train(model, train_loader, valid_loader, epochs, optimizer, scheduler, loss_fn, device, path):
+def train(config, model, train_loader, valid_loader, epochs, optimizer, scheduler, loss_fn, device, path):
+    global losses
     loss_return = []
     loss_return_valid = []
     best_loss = 1e30
     best_epoch = 0
     lrs = []
     accuracies = []
+    valid_epoch = 0
 
     for epoch in range(1, epochs + 1):
         model.train()
@@ -319,6 +344,7 @@ def train(model, train_loader, valid_loader, epochs, optimizer, scheduler, loss_
         loss_return.append(total_loss / len(train_loader))
 
         if epoch % 5 == 0:
+            valid_epoch += 1
             if scheduler != None:
               scheduler.step()
               lrs.append(optimizer.param_groups[0]["lr"])
@@ -360,6 +386,17 @@ def train(model, train_loader, valid_loader, epochs, optimizer, scheduler, loss_
                 path = os.path.join(checkpoint_dir, "checkpoint")
                 torch.save((model.state_dict(), optimizer.state_dict()), path)
 
+            if valid_epoch >= config['max_epochs'] and args.save_training:
+                folder_path = os.path.join(config['output_path'], str(config['dropout'])+'-'+str(config['epochs'])+ \
+                    '-'+str(config['hidden_fc'])+'-'+str(config['hidden_lstm'])+'-'+str(config['lr'])+'-'+str(config['scale']))
+                if not os.path.exists(folder_path):
+                    os.mkdir(folder_path)
+                save_values(loss_return, 'losses', folder_path)
+                save_values(loss_return_valid, 'valid_losses', folder_path)
+                save_values(lrs, 'learning_rates', folder_path)
+                save_values(accuracies, 'accuracies', folder_path)
+                print('Outputs training saved on epoch', epoch)
+
             tune.report(valid_loss = (total_valid_loss/len(valid_loader)), valid_acc = valid_accuracy)
 
     return loss_return, loss_return_valid, lrs, accuracies
@@ -387,14 +424,8 @@ def train_tuning(config, checkpoint_dir=None):
         optimizer.load_state_dict(optimizer_state)
 
     train_loader, valid_loader, _ = loadData(config['data_path'])
-    losses, valid_losses, lrs, accuracies = train(model, train_loader, valid_loader, config['epochs'], optimizer, scheduler, loss_fn, device, config["path"])
 
-    if args.save_training == 1:
-        save_values(losses, 'losses', config["output_path"])
-        save_values(valid_losses, 'valid_losses', config["output_path"])
-        save_values(lrs, 'learning_rates', config["output_path"])
-        save_values(accuracies, 'accuracies', config["output_path"])
-        print('Outputs training saved')
+    train(config, model, train_loader, valid_loader, config['epochs'], optimizer, scheduler, loss_fn, device, config["path"])
 
 def save_testresults(values, name, load_path, output_path):
     test_loader = torch.load(load_path+'/test_dataloader.pth')
@@ -433,18 +464,18 @@ def test(model, test_loader, diff, device, path):
 
             outputs.append(outputs_batch)
 
-    correct = computePerformanceTest(outputs, test_loader, diff, True)
-    return correct, outputs
+    return outputs
 
 def test_tuning(model, path, data_path, output_path, device="cpu"):
     _, _, test_loader = loadData(data_path)
     diff = 0
-    correct, output = test(model, test_loader, diff, device, path)
+    output = test(model, test_loader, diff, device, path)
+
     if args.save_outputs == 1:
         save_testresults(output, 'outputs_test', data_path, path)
 
-    for diff in [1, 2, 10]: #extra distance values for test evaluation
-        corrects_test, outputs_test = test(model, test_loader, diff, device, path)
+    for diff in [0, 1, 2, 10]: #extra distance values for test evaluation
+        correct = computePerformanceTest(output, test_loader, diff, True)
 
     return correct
 
@@ -478,6 +509,7 @@ def main(path, num_samples=30, max_num_epochs=10, gpus_per_trial=2):
         'dropout': tune.sample_from(lambda _: 0.05*np.random.randint(0, 6)), #dropout between 0 and 0.3
         'lr': tune.loguniform(1e-6, 1e-3),
         'epochs': tune.choice([100, 500, 1000]),
+        'max_epochs': max_num_epochs,
         'scale': tune.sample_from(lambda _: 0.9+0.01*np.random.randint(0, 9)), #scale from 0.9 to 0.98
         "path": path,
         "data_path": data_path,
@@ -530,6 +562,18 @@ def main(path, num_samples=30, max_num_epochs=10, gpus_per_trial=2):
     test_acc = test_tuning(best_trained_model, path, data_path, output_path, device)
     print("Best trial test set accuracy: {}".format(test_acc))
 
+def checkVariables():
+    # check variable input elements
+    for i in str(args.input_elements):
+        if not i in '12345': #number not 1,2,3,4 or 5
+            return False, 'input elements'
+    if str(args.input_elements).count('1') == 0: #obligatory use feature 1
+        return False, 'input elements'
+    for i in '12345': #not repeated numbers
+        if str(args.input_elements).count(i) > 1:
+            return False, 'input elements'
+
+    return True, None
 
 
 if __name__ == '__main__':
@@ -537,12 +581,13 @@ if __name__ == '__main__':
 
     parser.add_argument('--mini', type=int, default=0, metavar='MI', help='1 if you want to use a minified version of the data')
     parser.add_argument('--save_training', type=int, default=1, metavar='ST', help='Save the losses obtained in the training and validation')
-    parser.add_argument('--save_outputs', type=int, default=0, metavar='ST', help='Save the losses obtained in the training and validation')
-    parser.add_argument('--new', type=int, default=1, metavar='NEW', help='1 if you want to create the model from 0 again. THIS WILL REMOVE THE INFO FROM THE PREVIOUS MODEL!')
+    parser.add_argument('--save_outputs', type=int, default=1, metavar='SO', help='Save the values resultant on the test file to analyze')
+    parser.add_argument('--new_model', type=int, default=1, metavar='NM', help='1 if you want to create the model from 0 again. THIS WILL REMOVE THE INFO FROM THE PREVIOUS MODEL!')
+    parser.add_argument('--new_data', type=int, default=1, metavar='ND', help='1 if you want to repreprocess the data.')
 
     parser.add_argument('--seed', type=int, default=42, metavar='S', help='Number to random seed')
     parser.add_argument('--batch_size', type=int, default=256, metavar='BS', help='Batch size for the DataLoaders')
-    parser.add_argument('--input_elements', type=str, default='1234', metavar='IE', help='Elements as input: 1-views(must), 2-duration, 3-publication, 4-ratio likes/dislikes')
+    parser.add_argument('--input_elements', type=str, default='12345', metavar='IE', help='Elements as input: 1-views(must), 2-duration, 3-publication, 4-ratio likes/dislikes')
     parser.add_argument('--output_elements', type=int, default=1, metavar='OE', help='Elements as output, for now only 1 is valid (the views)')
 
     parser.add_argument('--name', type=str, default='', metavar='NA', help='Name of the model (folder too), if not it will have the date as the name')
@@ -554,27 +599,50 @@ if __name__ == '__main__':
         args.name = str(publi2value(date))
 
     path = os.path.join(str(pathlib.Path().absolute()), args.name)
-    if args.new == 1:
-        shutil.rmtree(path, ignore_errors=True)
-        print('New model, removing old data.')
+    if args.new_model == 1:
+        if os.path.exists(path):
+            for fi in os.listdir(path):
+                if fi != 'data':
+                    try:
+                        os.remove(os.path.join(path, fi))
+                        print('removing', os.path.join(path, fi))
+                    except Exception as e:
+                        shutil.rmtree(os.path.join(path, fi), ignore_errors=True)
+                        print('removing', os.path.join(path, fi))
     if not os.path.exists(path):
         os.mkdir(path)
+
     data_path = os.path.join(path, 'data')
+    if args.new_data == 1:
+        shutil.rmtree(data_path, ignore_errors=True)
     if not os.path.exists(data_path):
         os.mkdir(data_path)
+
     output_path = os.path.join(path, 'training_output')
+    if not os.path.exists(output_path):
+        os.mkdir(output_path)
 
     print('Working on path:', path)
 
-    if os.path.isfile(os.path.join(data_path,'train_dataloader.pth')) and \
-        os.path.isfile(os.path.join(data_path,'valid_dataloader.pth')) and \
-        os.path.isfile(os.path.join(data_path,'test_dataloader.pth')):
-        print('Data already existing')
-    else:
-        prepareData(data_path)
-        print('Data prepared\n')
+    checked, problem = checkVariables()
+    if checked:
+        if os.path.isfile(os.path.join(data_path,'train_dataloader.pth')) and \
+            os.path.isfile(os.path.join(data_path,'valid_dataloader.pth')) and \
+            os.path.isfile(os.path.join(data_path,'test_dataloader.pth')):
+            print('--- Data already existing')
+        else:
+            print('--- Data from 0')
+            prepareData(data_path)
+            print('Data prepared\n')
 
-    iterations = 2 #15
-    max_epochs = 20 #1000
-    main(path=path, num_samples=iterations, max_num_epochs=max_epochs, gpus_per_trial=2)
-    print('FINISHED TRAINING AND TESTING!')
+        if os.path.isfile(os.path.join(path, 'best_model.pt')) and args.new_model == 0:
+            print('--- The model already exists.')
+        else:
+            print('--- Model from 0')
+            iterations = 2 #15
+            max_epochs = 2 #1000 #counted on the validation
+            main(path=path, num_samples=iterations, max_num_epochs=max_epochs, gpus_per_trial=2)
+
+        print('FINISHED TRAINING AND TESTING!')
+    else:
+        print('Check the variable {}.'.format(problem))

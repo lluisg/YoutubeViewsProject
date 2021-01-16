@@ -29,17 +29,17 @@ def get_youtube_channelId(name):
     channel_search_result = youtube.search().list(part="id", maxResults=1, q=name).execute()
     # print(channel_search_result)
     if channel_search_result['pageInfo']['totalResults'] == 0:
-        with open('DATA/list_trending_channelsId_notF.txt', 'a') as f:
+        with open('../DATA/list_trending_channelsId_notF.txt', 'a') as f:
             f.write(name+'\n')
         print('--Channel search without result')
         return None
     elif not channel_search_result['items']:
-        with open('DATA/list_trending_channelsId_notF.txt', 'a') as f:
+        with open('../DATA/list_trending_channelsId_notF.txt', 'a') as f:
             f.write(name+'\n')
         print('--Not results in list')
         return None
     elif channel_search_result['items'][0]['id']['kind'] != "youtube#channel":
-        with open('DATA/list_trending_channelsId_notF.txt', 'a') as f:
+        with open('../DATA/list_trending_channelsId_notF.txt', 'a') as f:
             f.write(name+'\n')
         print('--Result not channel type')
         return None
@@ -47,13 +47,13 @@ def get_youtube_channelId(name):
     else:
         channel_id = channel_search_result['items'][0]['id']['channelId']
 
-    with open('DATA/list_trending_channelsId.txt', 'a') as f:
+    with open('../DATA/list_trending_channelsId.txt', 'a') as f:
         f.write(name+'\n')
 
     return channel_id
 
 def check_channel_found(name):
-    with open('DATA/list_trending_channelsId.txt', 'r') as f:
+    with open('../DATA/list_trending_channelsId.txt', 'r') as f:
         content_i = f.readlines()
     list_channels = [line.rstrip('\n') for line in content_i]
 
@@ -63,15 +63,15 @@ def check_channel_found(name):
         return False
 
 def get_next_channel_index():
-    with open('DATA/list_trending_channelsId.txt', 'r') as f:
+    with open('../DATA/list_trending_channelsId.txt', 'r') as f:
         content_i = f.readlines()
     list_channels = [line.rstrip('\n') for line in content_i]
-    with open('DATA/list_trending_channelsId_notF.txt', 'r') as f:
+    with open('../DATA/list_trending_channelsId_notF.txt', 'r') as f:
         content_not_f = f.readlines()
     list_notf_channels = [line.rstrip('\n') for line in content_not_f]
 
     if len(list_channels) > 0 or len(list_notf_channels) > 0:
-        df_movies = pd.read_csv('DATA/AllTrendingChannels.csv', encoding = "ISO-8859-1")
+        df_movies = pd.read_csv('../DATA/AllTrendingChannels.csv', encoding = "ISO-8859-1")
         found = False
 
         for index, row in df_movies.iterrows():
@@ -94,11 +94,11 @@ if __name__ == "__main__":
     print('Starting from: ', index)
 
     # Retrieve the channels data from the DDBB
-    df_movies = pd.read_csv('DATA/AllTrendingChannels.csv', encoding = "utf-8")
+    df_movies = pd.read_csv('../DATA/AllTrendingChannels.csv', encoding = "utf-8")
 
     # Creating pandas data frame appending to the previously obtained data
-    if os.path.isfile('DATA/ChannelIDTrending.csv'):
-        df_previous = pd.read_csv('DATA/ChannelIDTrending.csv', encoding = "utf-8")
+    if os.path.isfile('../DATA/ChannelIDTrending.csv'):
+        df_previous = pd.read_csv('../DATA/ChannelIDTrending.csv', encoding = "utf-8")
         list_previous = df_previous['channelId'].tolist()
     else:
         print('Creating ChannelIDTrending file from 0')
@@ -119,7 +119,7 @@ if __name__ == "__main__":
                 df_previous = pd.DataFrame(list_previous,columns=['channelId'])
 
                 # Save into csv format in the desired location
-                df_previous.to_csv('DATA/ChannelIDTrending.csv', encoding='utf-8', index=True)
+                df_previous.to_csv('../DATA/ChannelIDTrending.csv', encoding='utf-8', index=True)
             index = get_next_channel_index()
 
     print("you reached the last element from the AllTrendingChannels file")

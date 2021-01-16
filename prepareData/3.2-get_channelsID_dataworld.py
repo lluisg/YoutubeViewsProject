@@ -7,7 +7,7 @@ import numpy as np
 import json
 
 if __name__ == "__main__":
-    with open('DATA/YouTubeDataset_withChannelElapsed.json') as f:
+    with open('../DATA/YouTubeDataset_withChannelElapsed.json') as f:
       data = json.load(f)
     # print(data[0])
 
@@ -24,4 +24,4 @@ if __name__ == "__main__":
     print(len(list_channel_ids), 'elements no duplicates')
 
     df = pd.DataFrame(list_channel_ids, columns =['channelId'])
-    df.to_csv('DATA/ChannelIDDataworld.csv', encoding='utf-8', index=True)
+    df.to_csv('../DATA/ChannelIDDataworld.csv', encoding='utf-8', index=True)
