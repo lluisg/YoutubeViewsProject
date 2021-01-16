@@ -8,7 +8,7 @@ import tensorflow as tf
 from urllib.request import urlopen
 
 if __name__ == "__main__":
-    files = os.listdir('../YT8M/.')
+    files = os.listdir('../DATA/YT8M/.')
     train_files = [ x for x in files if x.startswith('train')]
     valid_files = [ x for x in files if x.startswith('valid')]
     test_files = [ x for x in files if x.startswith('test')]

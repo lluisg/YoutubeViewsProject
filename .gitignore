@@ -1,1 +1,17 @@
 __pycache__
+.env
+apikey.txt
+client*
+STEPS*
+
+youtube_shared
+
+DATA/aux_*
+DATA/Youtube*
+DATA/YT8M
+DATA/DDBB_Trending
+
+shared_youtube
+aux*
+
+331*

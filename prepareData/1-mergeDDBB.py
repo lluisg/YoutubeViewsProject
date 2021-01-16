@@ -7,7 +7,7 @@ list_channels = []
 list_errors = []
 for lang in langs:
     print('Reading ', lang)
-    df_videos = pd.read_csv('../DDBB_Trending/'+lang+'videos.csv', encoding = "ISO-8859-1")
+    df_videos = pd.read_csv('../DATA/DDBB_Trending/'+lang+'videos.csv', encoding = "ISO-8859-1")
     df_out = df_videos[['channel_title']]
     error_encoding = 0
 
