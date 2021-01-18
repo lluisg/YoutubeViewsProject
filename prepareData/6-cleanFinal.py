@@ -58,3 +58,4 @@ if __name__ == "__main__":
 
 
         df_copy.to_csv('../DATA/Final_videosDataClean.csv', encoding='utf-8', index=False)
+        print('last: 276365-13856')

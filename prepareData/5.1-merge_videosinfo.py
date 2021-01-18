@@ -18,7 +18,7 @@ def read_file_r(filename, check_r):
         return df
 
 print('Reading ', base_file, 'base file')
-df_base = read_file_r('DATA/'+base_file+'.csv', True)
+df_base = read_file_r('../DATA/'+base_file+'.csv', True)
 len_base = len(df_base.index)
 print('length base:', len_base)
 

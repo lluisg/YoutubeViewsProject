@@ -5,12 +5,12 @@ import numpy as np
 import pathlib
 import datetime
 import shutil
+import time
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-from torch.optim.lr_scheduler import LambdaLR
 from torch.utils.data import Dataset, DataLoader
 
 from ray import tune
@@ -95,8 +95,6 @@ def value2tens(value):
 
 def prepareData(data_path):
     df = pd.read_csv('DATA/Final_videosDataClean.csv')
-    print(df.head())
-
     #-------------------Mini version--------------------------
     if args.mini == 1:
         print('USING MINI VERSION')
@@ -105,15 +103,15 @@ def prepareData(data_path):
 
 
     list_videosId = df['id'].tolist()
+    print('We have {} different videos'.format(len(list_videosId)))
     set_videosId = set(list_videosId)
     list_videosId = list(set_videosId)
-    print('We have {} different videos, from which {} are repeated'.format(
-                                df.shape[0], df.shape[0]-len(list_videosId)))
+    print('from which {} are unique'.format(len(list_videosId)))
 
     list_channelId = df['channelId'].tolist()
     set_channelId = set(list_channelId)
     list_channelId = list(set_channelId)
-    print('We have {} diferent channels'.format(len(list_channelId)))
+    print('We have {} unique channels'.format(len(list_channelId)))
 
 
     #CLEANING ------------------------------------------------------------------
@@ -304,13 +302,12 @@ def save_values(values, name, path):
     with open(os.path.join(path, name+'.txt'), 'w+') as f:
         f.write(str(values))
 
-def train(config, model, train_loader, valid_loader, epochs, optimizer, scheduler, loss_fn, device, path):
+def train(config, model, train_loader, valid_loader, epochs, optimizer, loss_fn, device, path):
     global losses
     loss_return = []
     loss_return_valid = []
     best_loss = 1e30
     best_epoch = 0
-    lrs = []
     accuracies = []
     valid_epoch = 0
 
@@ -345,10 +342,6 @@ def train(config, model, train_loader, valid_loader, epochs, optimizer, schedule
 
         if epoch % 5 == 0:
             valid_epoch += 1
-            if scheduler != None:
-              scheduler.step()
-              lrs.append(optimizer.param_groups[0]["lr"])
-
             model.eval()
             total_valid_loss = 0
 
@@ -386,20 +379,18 @@ def train(config, model, train_loader, valid_loader, epochs, optimizer, schedule
                 path = os.path.join(checkpoint_dir, "checkpoint")
                 torch.save((model.state_dict(), optimizer.state_dict()), path)
 
-            if valid_epoch >= config['max_epochs'] and args.save_training:
+            if args.save_training:
                 folder_path = os.path.join(config['output_path'], str(config['dropout'])+'-'+str(config['epochs'])+ \
-                    '-'+str(config['hidden_fc'])+'-'+str(config['hidden_lstm'])+'-'+str(config['lr'])+'-'+str(config['scale']))
+                    '-'+str(config['hidden_fc'])+'-'+str(config['hidden_lstm'])+'-'+str(config['lr']))
                 if not os.path.exists(folder_path):
                     os.mkdir(folder_path)
                 save_values(loss_return, 'losses', folder_path)
                 save_values(loss_return_valid, 'valid_losses', folder_path)
-                save_values(lrs, 'learning_rates', folder_path)
                 save_values(accuracies, 'accuracies', folder_path)
-                print('Outputs training saved on epoch', epoch)
+                print('Outputs training/eval saved on epoch', epoch)
 
             tune.report(valid_loss = (total_valid_loss/len(valid_loader)), valid_acc = valid_accuracy)
 
-    return loss_return, loss_return_valid, lrs, accuracies
 
 def train_tuning(config, checkpoint_dir=None):
     model = LSTMModel(config["input"], config['hidden_lstm'], config['hidden_fc'], config['output'], config['dropout'])
@@ -413,8 +404,6 @@ def train_tuning(config, checkpoint_dir=None):
 
     loss_fn = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=config['lr'])
-    lambda1 = lambda step: config['scale'] ** step
-    scheduler = LambdaLR(optimizer, lr_lambda=lambda1)
 
     # The `checkpoint_dir` parameter gets passed by Ray Tune when a checkpoint should be restored.
     if checkpoint_dir:
@@ -425,7 +414,7 @@ def train_tuning(config, checkpoint_dir=None):
 
     train_loader, valid_loader, _ = loadData(config['data_path'])
 
-    train(config, model, train_loader, valid_loader, config['epochs'], optimizer, scheduler, loss_fn, device, config["path"])
+    train(config, model, train_loader, valid_loader, config['epochs'], optimizer, loss_fn, device, config["path"])
 
 def save_testresults(values, name, load_path, output_path):
     test_loader = torch.load(load_path+'/test_dataloader.pth')
@@ -498,42 +487,37 @@ def computePerformanceTest(results, test_loader, difference=0, printing=False):
     return correct/total
 
 
-def main(path, num_samples=30, max_num_epochs=10, gpus_per_trial=2):
+def main(path, num_samples=30, max_num_epochs=10000, gpus_per_trial=2):
     model_path = path+'/best_model.pt'
 
     config = {
         'input': len(args.input_elements),
         'hidden_lstm': tune.sample_from(lambda _: 2**np.random.randint(7, 12)), #hidden layers between 128 and 2048
         'hidden_fc': tune.sample_from(lambda _: 2**np.random.randint(7, 12)),
-        'output': 99,
-        'dropout': tune.sample_from(lambda _: 0.05*np.random.randint(0, 6)), #dropout between 0 and 0.3
+        'output': 50,
+        'dropout': tune.sample_from(lambda _: 0.05*np.random.randint(0, 7)), #dropout between 0 and 0.3
         'lr': tune.loguniform(1e-6, 1e-3),
-        'epochs': tune.choice([100, 500, 1000]),
-        'max_epochs': max_num_epochs,
-        'scale': tune.sample_from(lambda _: 0.9+0.01*np.random.randint(0, 9)), #scale from 0.9 to 0.98
-        "path": path,
-        "data_path": data_path,
-        "output_path": output_path
+        'epochs': tune.choice([100, 500, 1000, 5000, 10000]),
+        'path': path,
+        'data_path': data_path,
+        'output_path': output_path
       }
 
     scheduler = ASHAScheduler(
-        max_t=max_num_epochs,
+        time_attr='training_iteration',
+        max_t=max_num_epochs/5,
         grace_period=1,
-        reduction_factor=2)
+        reduction_factor=2,
+        brackets=2)
 
     result = tune.run(
         tune.with_parameters(train_tuning),
-        # resources_per_trial={"cpu": 8, "gpu": gpus_per_trial},
         resources_per_trial={"cpu": 4, "gpu": gpus_per_trial},
-        config=config,
         metric='valid_loss',
         mode="min",
+        config=config,
         num_samples=num_samples,
         scheduler=scheduler)
-        # checkpoint_at_end=True)
-
-    # # Get a dataframe for analyzing trial results.
-    # df = result.dataframe()
 
     best_trial = result.get_best_trial("valid_loss", "min", "last")
     print("Best trial config: {}".format(best_trial.config))
@@ -559,8 +543,8 @@ def main(path, num_samples=30, max_num_epochs=10, gpus_per_trial=2):
     model_state, optimizer_state = torch.load(checkpoint_path)
     best_trained_model.load_state_dict(model_state)
 
+    print("Best trial test set accuracy:")
     test_acc = test_tuning(best_trained_model, path, data_path, output_path, device)
-    print("Best trial test set accuracy: {}".format(test_acc))
 
 def checkVariables():
     # check variable input elements
@@ -577,6 +561,10 @@ def checkVariables():
 
 
 if __name__ == '__main__':
+
+    start_time = time.time()
+    print('Started running at {}'.format(start_time))
+
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--mini', type=int, default=0, metavar='MI', help='1 if you want to use a minified version of the data')
@@ -589,6 +577,9 @@ if __name__ == '__main__':
     parser.add_argument('--batch_size', type=int, default=256, metavar='BS', help='Batch size for the DataLoaders')
     parser.add_argument('--input_elements', type=str, default='12345', metavar='IE', help='Elements as input: 1-views(must), 2-duration, 3-publication, 4-ratio likes/dislikes')
     parser.add_argument('--output_elements', type=int, default=1, metavar='OE', help='Elements as output, for now only 1 is valid (the views)')
+
+    parser.add_argument('--max_epochs', type=int, default=None, metavar='EME', help='Number of max epochs the model will train (it will be rounded to multiple of 5).')
+    parser.add_argument('--iterations', type=int, default=15, metavar='NR', help='Number of iterations with different parameter values the model will run.')
 
     parser.add_argument('--name', type=str, default='', metavar='NA', help='Name of the model (folder too), if not it will have the date as the name')
 
@@ -605,10 +596,8 @@ if __name__ == '__main__':
                 if fi != 'data':
                     try:
                         os.remove(os.path.join(path, fi))
-                        print('removing', os.path.join(path, fi))
                     except Exception as e:
                         shutil.rmtree(os.path.join(path, fi), ignore_errors=True)
-                        print('removing', os.path.join(path, fi))
     if not os.path.exists(path):
         os.mkdir(path)
 
@@ -639,10 +628,18 @@ if __name__ == '__main__':
             print('--- The model already exists.')
         else:
             print('--- Model from 0')
-            iterations = 2 #15
-            max_epochs = 2 #1000 #counted on the validation
-            main(path=path, num_samples=iterations, max_num_epochs=max_epochs, gpus_per_trial=2)
+            if args.max_epochs == None:
+                # main(path=path, num_samples=args.iterations, max_num_epochs=10000, gpus_per_trial=2)
+                pass
+            else:
+                if args.max_epochs >= 20:
+                    max_epochs = int(np.round(args.max_epochs/5)*5)
+                    # main(path=path, num_samples=args.iterations, max_num_epochs=max_epochs, gpus_per_trial=2)
+                else:
+                    print('Minimum training of 20 epochs')
 
         print('FINISHED TRAINING AND TESTING!')
     else:
         print('Check the variable {}.'.format(problem))
+
+    print("Took --- {}m ---".format((time.time() - start_time)/10)
