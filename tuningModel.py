@@ -95,13 +95,18 @@ def value2tens(value):
 
 def prepareData(data_path):
     df = pd.read_csv('DATA/Final_videosDataClean.csv')
+
     #-------------------Mini version--------------------------
     if args.mini == 1:
         print('USING MINI VERSION')
         df = df.head(500)
         print('Mini data len', df.shape[0])
 
+    #CLEANING ------------------------------------------------------------------
+    # Removing elements from table which have NaN's
+    df.dropna(how='any', inplace=True)
 
+    # UNIQUE ------------------------------
     list_videosId = df['id'].tolist()
     print('We have {} different videos'.format(len(list_videosId)))
     set_videosId = set(list_videosId)
@@ -113,42 +118,35 @@ def prepareData(data_path):
     list_channelId = list(set_channelId)
     print('We have {} unique channels'.format(len(list_channelId)))
 
+    # dropping duplicated videos
+    df = df.drop_duplicates(subset='id', keep='first')
 
-    #CLEANING ------------------------------------------------------------------
-    # Removing elements from table which have NaN's
-    df = df[df['viewCount'].notna()]
-    df = df[df['likeCount'].notna()]
-    df = df[df['dislikeCount'].notna()]
-    df = df[df['commentCount'].notna()]
+    #Removing channels if videos after deleting NaN and duplicates are below 10
+    list_channelids = df['channelId'].value_counts()
+    number_less10 = len([c for c in list_channelids if c < 10])
 
-    #Removing channels if videos after deleting NaN are below 10
-    id_less = []
-    for channel in list_channelId:
-        list_number = df.loc[df['channelId'] == channel]['viewCount'].tolist()
-        if len(list_number) < 10:
-            id_less.append(channel)
+    for ch in [i for i in list_channelids.index if list_channelids[i] < 10]:
+      df = df[df.channelId != ch]
 
-    for ch in id_less:
-        df = df[df['channelId'] != ch]
-
-    del list_number
-    del id_less
+    del list_channelids
+    del number_less10
 
     list_videosId = df['id'].tolist()
+    print('After dropping NaNs and duplicates we have {} different videos'.format(len(list_videosId)))
     set_videosId = set(list_videosId)
     list_videosId = list(set_videosId)
 
     list_channelId = df['channelId'].tolist()
     set_channelId = set(list_channelId)
     list_channelId = list(set_channelId)
-    print('After dropping NaNs we have {} different videos, and {} diferent channels'.format(
-                                df.shape[0], len(list_channelId)))
+    print('from which {} are unique. And {} diferent channels'.format( len(list_videosId), len(list_channelId)))
 
     views_channel = []
     publication_channel = []
     ratio_channel = []
     duration_channel = []
     comments_channel = []
+
     for channel in list_channelId:
         ratio_likes = []
         viewsvideo = [int(value2tens(roundVisit(visit))) for visit in df.loc[df['channelId'] == channel]['viewCount'].tolist()]
@@ -329,6 +327,7 @@ def train(config, model, train_loader, valid_loader, epochs, optimizer, loss_fn,
             for result, target in zip(out, batch_y):
                 result = result.reshape((1,-1))
                 target = target.reshape((1))
+                # print('heeey', np.shape(target), target, np.shape(result), result)
                 loss = loss_fn(result, target) #index of the k
                 batch_loss += loss
 
@@ -357,6 +356,7 @@ def train(config, model, train_loader, valid_loader, epochs, optimizer, loss_fn,
                 for result, target in zip(out, batch_y):
                     result = result.reshape((1,-1))
                     target = target.reshape((1))
+
                     loss = loss_fn(result, target) #index of the k
                     valid_loss += loss
                     result_value = np.argmax(result.detach().cpu().numpy())
@@ -494,7 +494,7 @@ def main(path, num_samples=30, max_num_epochs=10000, gpus_per_trial=2):
         'input': len(args.input_elements),
         'hidden_lstm': tune.sample_from(lambda _: 2**np.random.randint(7, 12)), #hidden layers between 128 and 2048
         'hidden_fc': tune.sample_from(lambda _: 2**np.random.randint(7, 12)),
-        'output': 50,
+        'output': 70,
         'dropout': tune.sample_from(lambda _: 0.05*np.random.randint(0, 7)), #dropout between 0 and 0.3
         'lr': tune.loguniform(1e-6, 1e-3),
         'epochs': tune.choice([100, 500, 1000, 5000, 10000]),
@@ -563,7 +563,6 @@ def checkVariables():
 if __name__ == '__main__':
 
     start_time = time.time()
-    print('Started running at {}'.format(start_time))
 
     parser = argparse.ArgumentParser()
 
@@ -629,12 +628,12 @@ if __name__ == '__main__':
         else:
             print('--- Model from 0')
             if args.max_epochs == None:
-                # main(path=path, num_samples=args.iterations, max_num_epochs=10000, gpus_per_trial=2)
+                main(path=path, num_samples=args.iterations, max_num_epochs=10000, gpus_per_trial=2)
                 pass
             else:
                 if args.max_epochs >= 20:
                     max_epochs = int(np.round(args.max_epochs/5)*5)
-                    # main(path=path, num_samples=args.iterations, max_num_epochs=max_epochs, gpus_per_trial=2)
+                    main(path=path, num_samples=args.iterations, max_num_epochs=max_epochs, gpus_per_trial=2)
                 else:
                     print('Minimum training of 20 epochs')
 
@@ -642,4 +641,5 @@ if __name__ == '__main__':
     else:
         print('Check the variable {}.'.format(problem))
 
-    print("Took --- {}m ---".format((time.time() - start_time)/10)
+    end_time = time.time()
+    print("Took --- {}m ---".format((end_time - start_time)/60))

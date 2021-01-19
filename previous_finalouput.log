@@ -1,0 +1,18 @@
+sys:1: DtypeWarning: Columns (0) have mixed types. Specify dtype option on import or set low_memory=False.
+Working on path: /home/usuaris/veu/lluis.guardia/youtubeViewsProject/model_final
+--- Data from 0
+We have 263343 different videos
+from which 263306 are unique
+We have 13426 unique channels
+After dropping NaNs and duplicates we have 262665 different videos
+from which 262665 are unique. And 13264 diferent channels
+views:  (13264,) publi:  (13264,) ratio likes:  (13264,) duration:  (13264,) comments:  (13264,)
+Max value of views: 61
+The model will use the features: views duration publication ratio comments
+X: (13264, 9, 5) -> Xtrain: (7958, 9, 5), Xvalid: (2653, 9, 5), Xtest: (2653, 9, 5)
+y: (13264,) -> ytrain: (7958,), yvalid: (2653,), ytest: (2653,)
+Data prepared
+
+--- Model from 0
+FINISHED TRAINING AND TESTING!
+Took --- 19.31059565146764m ---
