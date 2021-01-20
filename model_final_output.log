@@ -28477,3 +28477,360 @@ ray.exceptions.RayTaskError(OSError): [36mray::ImplicitFunc.train()[39m (pid=1
   File "/home/usuaris/veu/lluis.guardia/lluis/lib/python3.6/site-packages/ray/utils.py", line 443, in open_log
     stream = open(path, **kwargs)
 OSError: [Errno 28] No space left on device: '/tmp/ray/session_2021-01-19_15-55-04_453814_17987/logs/worker-293de34930f2e44b82c7dc69914ee3ce23eec66e-01000000-13050.out'
+
+[2m[36m(pid=4009)[0m Outputs training/eval saved on epoch 70
+[2m[36m(pid=4009)[0m Epoch: 71, Loss: 791.5801494121552
+[2m[36m(pid=4009)[0m Epoch: 72, Loss: 791.4160981178284
+[2m[36m(pid=4009)[0m Epoch: 73, Loss: 791.145571231842
+[2m[36m(pid=4009)[0m Epoch: 74, Loss: 791.0004320144653
+[2m[36m(pid=4009)[0m Epoch: 75, Loss: 790.592009
+== Status ==
+Memory usage on this node: 42.5/503.6 GiB
+Using AsyncHyperBand: num_stopped=0
+Bracket: Iter 1024.000: None | Iter 512.000: None | Iter 256.000: None | Iter 128.000: None | Iter 64.000: -769.4635758833451 | Iter 32.000: -801.7769636674361 | Iter 16.000: -878.7000954367898 | Iter 8.000: -869.1203599409623 | Iter 4.000: -886.1823300448332 | Iter 2.000: -886.6924313631924 | Iter 1.000: -879.9430084228516
+Bracket: Iter 1024.000: None | Iter 512.000: None | Iter 256.000: None | Iter 128.000: None | Iter 64.000: None | Iter 32.000: None | Iter 16.000: None | Iter 8.000: -714.4851407137784 | Iter 4.000: -774.033280806108 | Iter 2.000: -811.3414334383878
+Resources requested: 0/16 CPUs, 0/2 GPUs, 0.0/316.99 GiB heap, 0.0/96.48 GiB objects (0/1.0 accelerator_type:RTX)
+Current best trial: b69f4_00016 with valid_loss=703.260986328125 and parameters={'input': 5, 'hidden_lstm': 128, 'hidden_fc': 512, 'output': 70, 'dropout': 0.15000000000000002, 'lr': 4.3846901632390094e-05, 'epochs': 500, 'path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model_final', 'data_path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model_final/data', 'output_path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model_final/training_output'}
+Result logdir: /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12
+Number of trials: 19/20 (18 ERROR, 1 PENDING)
++-------------------+----------+-------+-----------+----------+-------------+---------------+-------------+--------+------------------+--------------+-------------+
+| Trial name        | status   | loc   |   dropout |   epochs |   hidden_fc |   hidden_lstm |          lr |   iter |   total time (s) |   valid_loss |   valid_acc |
+|-------------------+----------+-------+-----------+----------+-------------+---------------+-------------+--------+------------------+--------------+-------------|
+| inner_b69f4_00018 | PENDING  |       |      0.05 |     1000 |         512 |          2048 | 9.15745e-06 |        |                  |              |             |
+| inner_b69f4_00000 | ERROR    |       |      0.15 |     1000 |        1024 |           512 | 1.24089e-06 |     71 |          917.485 |      765.068 |   0.130795  |
+| inner_b69f4_00001 | ERROR    |       |      0.1  |     5000 |        2048 |           512 | 3.49283e-05 |        |                  |              |             |
+| inner_b69f4_00002 | ERROR    |       |      0.3  |    10000 |         256 |           256 | 3.64479e-05 |        |                  |              |             |
+| inner_b69f4_00003 | ERROR    |       |      0.05 |      100 |        1024 |          2048 | 1.89765e-06 |        |                  |              |             |
+| inner_b69f4_00004 | ERROR    |       |      0.3  |     5000 |        2048 |           128 | 6.51057e-05 |        |                  |              |             |
+| inner_b69f4_00005 | ERROR    |       |      0.25 |      500 |         512 |           128 | 0.000150707 |        |                  |              |             |
+| inner_b69f4_00006 | ERROR    |       |      0.15 |     1000 |         256 |          2048 | 6.76203e-06 |        |                  |              |             |
+| inner_b69f4_00007 | ERROR    |       |      0.05 |      500 |         256 |           256 | 6.43356e-05 |        |                  |              |             |
+| inner_b69f4_00008 | ERROR    |       |      0.3  |      500 |        2048 |           256 | 0.000184385 |        |                  |              |             |
+| inner_b69f4_00009 | ERROR    |       |      0.25 |      500 |        1024 |           256 | 1.79676e-06 |        |                  |              |             |
+| inner_b69f4_00010 | ERROR    |       |      0    |     5000 |        2048 |          1024 | 2.29104e-06 |        |                  |              |             |
+| inner_b69f4_00011 | ERROR    |       |      0.2  |    10000 |         128 |          2048 | 9.27268e-06 |        |                  |              |             |
+| inner_b69f4_00012 | ERROR    |       |      0.25 |     5000 |         512 |          2048 | 0.000258368 |        |                  |              |             |
+| inner_b69f4_00013 | ERROR    |       |      0.15 |      500 |        2048 |          1024 | 6.92932e-06 |        |                  |              |             |
+| inner_b69f4_00014 | ERROR    |       |      0.2  |      500 |         128 |          2048 | 4.37286e-05 |        |                  |              |             |
+| inner_b69f4_00015 | ERROR    |       |      0.15 |     1000 |         128 |           512 | 3.77791e-06 |        |                  |              |             |
+| inner_b69f4_00016 | ERROR    |       |      0.15 |      500 |         512 |           128 | 4.38469e-05 |     14 |          178.43  |      703.261 |   0.156427  |
+| inner_b69f4_00017 | ERROR    |       |      0.15 |    10000 |         512 |          1024 | 0.00069217  |     14 |          180.313 |      783.089 |   0.0776479 |
++-------------------+----------+-------+-----------+----------+-------------+---------------+-------------+--------+------------------+--------------+-------------+
+Number of errored trials: 18
++-------------------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Trial name        |   # failures | error file                                                                                                                                                                                      |
+|-------------------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| inner_b69f4_00000 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00000_0_dropout=0.15,epochs=1000,hidden_fc=1024,hidden_lstm=512,lr=1.2409e-06_2021-01-19_15-55-12/error.txt   |
+| inner_b69f4_00001 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00001_1_dropout=0.1,epochs=5000,hidden_fc=2048,hidden_lstm=512,lr=3.4928e-05_2021-01-19_16-10-44/error.txt    |
+| inner_b69f4_00002 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00002_2_dropout=0.3,epochs=10000,hidden_fc=256,hidden_lstm=256,lr=3.6448e-05_2021-01-19_16-10-47/error.txt    |
+| inner_b69f4_00003 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00003_3_dropout=0.05,epochs=100,hidden_fc=1024,hidden_lstm=2048,lr=1.8977e-06_2021-01-19_16-10-49/error.txt   |
+| inner_b69f4_00004 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00004_4_dropout=0.3,epochs=5000,hidden_fc=2048,hidden_lstm=128,lr=6.5106e-05_2021-01-19_16-10-50/error.txt    |
+| inner_b69f4_00005 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00005_5_dropout=0.25,epochs=500,hidden_fc=512,hidden_lstm=128,lr=0.00015071_2021-01-19_16-10-52/error.txt     |
+| inner_b69f4_00006 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00006_6_dropout=0.15,epochs=1000,hidden_fc=256,hidden_lstm=2048,lr=6.762e-06_2021-01-19_16-10-53/error.txt    |
+| inner_b69f4_00007 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00007_7_dropout=0.05,epochs=500,hidden_fc=256,hidden_lstm=256,lr=6.4336e-05_2021-01-19_16-10-55/error.txt     |
+| inner_b69f4_00008 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00008_8_dropout=0.3,epochs=500,hidden_fc=2048,hidden_lstm=256,lr=0.00018439_2021-01-19_16-10-56/error.txt     |
+| inner_b69f4_00009 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00009_9_dropout=0.25,epochs=500,hidden_fc=1024,hidden_lstm=256,lr=1.7968e-06_2021-01-19_16-10-57/error.txt    |
+| inner_b69f4_00010 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00010_10_dropout=0.0,epochs=5000,hidden_fc=2048,hidden_lstm=1024,lr=2.291e-06_2021-01-19_16-10-59/error.txt   |
+| inner_b69f4_00011 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00011_11_dropout=0.2,epochs=10000,hidden_fc=128,hidden_lstm=2048,lr=9.2727e-06_2021-01-19_16-11-01/error.txt  |
+| inner_b69f4_00012 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00012_12_dropout=0.25,epochs=5000,hidden_fc=512,hidden_lstm=2048,lr=0.00025837_2021-01-19_16-11-02/error.txt  |
+| inner_b69f4_00013 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00013_13_dropout=0.15,epochs=500,hidden_fc=2048,hidden_lstm=1024,lr=6.9293e-06_2021-01-19_16-11-03/error.txt  |
+| inner_b69f4_00014 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00014_14_dropout=0.2,epochs=500,hidden_fc=128,hidden_lstm=2048,lr=4.3729e-05_2021-01-19_16-11-05/error.txt    |
+| inner_b69f4_00015 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00015_15_dropout=0.15,epochs=1000,hidden_fc=128,hidden_lstm=512,lr=3.7779e-06_2021-01-19_16-11-06/error.txt   |
+| inner_b69f4_00016 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00016_16_dropout=0.15,epochs=500,hidden_fc=512,hidden_lstm=128,lr=4.3847e-05_2021-01-19_16-11-08/error.txt    |
+| inner_b69f4_00017 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00017_17_dropout=0.15,epochs=10000,hidden_fc=512,hidden_lstm=1024,lr=0.00069217_2021-01-19_16-19-50/error.txt |
++-------------------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+== Status ==
+Memory usage on this node: 40.4/503.6 GiB
+Using AsyncHyperBand: num_stopped=0
+Bracket: Iter 1024.000: None | Iter 512.000: None | Iter 256.000: None | Iter 128.000: None | Iter 64.000: -769.4635758833451 | Iter 32.000: -801.7769636674361 | Iter 16.000: -878.7000954367898 | Iter 8.000: -869.1203599409623 | Iter 4.000: -886.1823300448332 | Iter 2.000: -886.6924313631924 | Iter 1.000: -879.9430084228516
+Bracket: Iter 1024.000: None | Iter 512.000: None | Iter 256.000: None | Iter 128.000: None | Iter 64.000: None | Iter 32.000: None | Iter 16.000: None | Iter 8.000: -714.4851407137784 | Iter 4.000: -774.033280806108 | Iter 2.000: -811.3414334383878
+Resources requested: 0/16 CPUs, 0/2 GPUs, 0.0/316.99 GiB heap, 0.0/96.48 GiB objects (0/1.0 accelerator_type:RTX)
+Current best trial: b69f4_00016 with valid_loss=703.260986328125 and parameters={'input': 5, 'hidden_lstm': 128, 'hidden_fc': 512, 'output': 70, 'dropout': 0.15000000000000002, 'lr': 4.3846901632390094e-05, 'epochs': 500, 'path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model_final', 'data_path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model_final/data', 'output_path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model_final/training_output'}
+Result logdir: /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12
+Number of trials: 20/20 (19 ERROR, 1 PENDING)
++-------------------+----------+-------+-----------+----------+-------------+---------------+-------------+--------+------------------+--------------+-------------+
+| Trial name        | status   | loc   |   dropout |   epochs |   hidden_fc |   hidden_lstm |          lr |   iter |   total time (s) |   valid_loss |   valid_acc |
+|-------------------+----------+-------+-----------+----------+-------------+---------------+-------------+--------+------------------+--------------+-------------|
+| inner_b69f4_00019 | PENDING  |       |      0.15 |      500 |        1024 |           512 | 1.53074e-06 |        |                  |              |             |
+| inner_b69f4_00000 | ERROR    |       |      0.15 |     1000 |        1024 |           512 | 1.24089e-06 |     71 |          917.485 |      765.068 |   0.130795  |
+| inner_b69f4_00001 | ERROR    |       |      0.1  |     5000 |        2048 |           512 | 3.49283e-05 |        |                  |              |             |
+| inner_b69f4_00002 | ERROR    |       |      0.3  |    10000 |         256 |           256 | 3.64479e-05 |        |                  |              |             |
+| inner_b69f4_00003 | ERROR    |       |      0.05 |      100 |        1024 |          2048 | 1.89765e-06 |        |                  |              |             |
+| inner_b69f4_00004 | ERROR    |       |      0.3  |     5000 |        2048 |           128 | 6.51057e-05 |        |                  |              |             |
+| inner_b69f4_00005 | ERROR    |       |      0.25 |      500 |         512 |           128 | 0.000150707 |        |                  |              |             |
+| inner_b69f4_00006 | ERROR    |       |      0.15 |     1000 |         256 |          2048 | 6.76203e-06 |        |                  |              |             |
+| inner_b69f4_00007 | ERROR    |       |      0.05 |      500 |         256 |           256 | 6.43356e-05 |        |                  |              |             |
+| inner_b69f4_00008 | ERROR    |       |      0.3  |      500 |        2048 |           256 | 0.000184385 |        |                  |              |             |
+| inner_b69f4_00009 | ERROR    |       |      0.25 |      500 |        1024 |           256 | 1.79676e-06 |        |                  |              |             |
+| inner_b69f4_00010 | ERROR    |       |      0    |     5000 |        2048 |          1024 | 2.29104e-06 |        |                  |              |             |
+| inner_b69f4_00011 | ERROR    |       |      0.2  |    10000 |         128 |          2048 | 9.27268e-06 |        |                  |              |             |
+| inner_b69f4_00012 | ERROR    |       |      0.25 |     5000 |         512 |          2048 | 0.000258368 |        |                  |              |             |
+| inner_b69f4_00013 | ERROR    |       |      0.15 |      500 |        2048 |          1024 | 6.92932e-06 |        |                  |              |             |
+| inner_b69f4_00014 | ERROR    |       |      0.2  |      500 |         128 |          2048 | 4.37286e-05 |        |                  |              |             |
+| inner_b69f4_00015 | ERROR    |       |      0.15 |     1000 |         128 |           512 | 3.77791e-06 |        |                  |              |             |
+| inner_b69f4_00016 | ERROR    |       |      0.15 |      500 |         512 |           128 | 4.38469e-05 |     14 |          178.43  |      703.261 |   0.156427  |
+| inner_b69f4_00017 | ERROR    |       |      0.15 |    10000 |         512 |          1024 | 0.00069217  |     14 |          180.313 |      783.089 |   0.0776479 |
+| inner_b69f4_00018 | ERROR    |       |      0.05 |     1000 |         512 |          2048 | 9.15745e-06 |        |                  |              |             |
++-------------------+----------+-------+-----------+----------+-------------+---------------+-------------+--------+------------------+--------------+-------------+
+Number of errored trials: 19
++-------------------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Trial name        |   # failures | error file                                                                                                                                                                                      |
+|-------------------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| inner_b69f4_00000 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00000_0_dropout=0.15,epochs=1000,hidden_fc=1024,hidden_lstm=512,lr=1.2409e-06_2021-01-19_15-55-12/error.txt   |
+| inner_b69f4_00001 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00001_1_dropout=0.1,epochs=5000,hidden_fc=2048,hidden_lstm=512,lr=3.4928e-05_2021-01-19_16-10-44/error.txt    |
+| inner_b69f4_00002 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00002_2_dropout=0.3,epochs=10000,hidden_fc=256,hidden_lstm=256,lr=3.6448e-05_2021-01-19_16-10-47/error.txt    |
+| inner_b69f4_00003 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00003_3_dropout=0.05,epochs=100,hidden_fc=1024,hidden_lstm=2048,lr=1.8977e-06_2021-01-19_16-10-49/error.txt   |
+| inner_b69f4_00004 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00004_4_dropout=0.3,epochs=5000,hidden_fc=2048,hidden_lstm=128,lr=6.5106e-05_2021-01-19_16-10-50/error.txt    |
+| inner_b69f4_00005 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00005_5_dropout=0.25,epochs=500,hidden_fc=512,hidden_lstm=128,lr=0.00015071_2021-01-19_16-10-52/error.txt     |
+| inner_b69f4_00006 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00006_6_dropout=0.15,epochs=1000,hidden_fc=256,hidden_lstm=2048,lr=6.762e-06_2021-01-19_16-10-53/error.txt    |
+| inner_b69f4_00007 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00007_7_dropout=0.05,epochs=500,hidden_fc=256,hidden_lstm=256,lr=6.4336e-05_2021-01-19_16-10-55/error.txt     |
+| inner_b69f4_00008 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00008_8_dropout=0.3,epochs=500,hidden_fc=2048,hidden_lstm=256,lr=0.00018439_2021-01-19_16-10-56/error.txt     |
+| inner_b69f4_00009 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00009_9_dropout=0.25,epochs=500,hidden_fc=1024,hidden_lstm=256,lr=1.7968e-06_2021-01-19_16-10-57/error.txt    |
+| inner_b69f4_00010 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00010_10_dropout=0.0,epochs=5000,hidden_fc=2048,hidden_lstm=1024,lr=2.291e-06_2021-01-19_16-10-59/error.txt   |
+| inner_b69f4_00011 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00011_11_dropout=0.2,epochs=10000,hidden_fc=128,hidden_lstm=2048,lr=9.2727e-06_2021-01-19_16-11-01/error.txt  |
+| inner_b69f4_00012 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00012_12_dropout=0.25,epochs=5000,hidden_fc=512,hidden_lstm=2048,lr=0.00025837_2021-01-19_16-11-02/error.txt  |
+| inner_b69f4_00013 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00013_13_dropout=0.15,epochs=500,hidden_fc=2048,hidden_lstm=1024,lr=6.9293e-06_2021-01-19_16-11-03/error.txt  |
+| inner_b69f4_00014 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00014_14_dropout=0.2,epochs=500,hidden_fc=128,hidden_lstm=2048,lr=4.3729e-05_2021-01-19_16-11-05/error.txt    |
+| inner_b69f4_00015 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00015_15_dropout=0.15,epochs=1000,hidden_fc=128,hidden_lstm=512,lr=3.7779e-06_2021-01-19_16-11-06/error.txt   |
+| inner_b69f4_00016 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00016_16_dropout=0.15,epochs=500,hidden_fc=512,hidden_lstm=128,lr=4.3847e-05_2021-01-19_16-11-08/error.txt    |
+| inner_b69f4_00017 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00017_17_dropout=0.15,epochs=10000,hidden_fc=512,hidden_lstm=1024,lr=0.00069217_2021-01-19_16-19-50/error.txt |
+| inner_b69f4_00018 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00018_18_dropout=0.05,epochs=1000,hidden_fc=512,hidden_lstm=2048,lr=9.1575e-06_2021-01-19_20-49-37/error.txt  |
++-------------------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+[2m[36m(pid=17907)[0m Epoch: 1, Loss: 1058.9363214969635
+[2m[36m(pid=17907)[0m Epoch: 2, Loss: 1057.0627765655518
+[2m[36m(pid=17907)[0m Epoch: 3, Loss: 1055.5137763023376
+[2m[36m(pid=17907)[0m Epoch: 4, Loss: 1053.9322936534882
+[2m[36m(pid=17907)[0m Epoch: 5, Loss: 1052.220710992813
+[2m[36m(pid=17907)[0m Validation Loss: 1019.923436945135, Accuracy: 0.0015077271013946476
+Result for inner_b69f4_00019:
+  date: 2021-01-20_00-00-36
+  done: false
+  experiment_id: f93b61d3a72b4d429bfd830ac1a6396f
+  experiment_tag: 19_dropout=0.15,epochs=500,hidden_fc=1024,hidden_lstm=512,lr=1.5307e-06
+  hostname: veuc10
+  iterations_since_restore: 1
+  node_ip: 172.26.105.110
+  pid: 17907
+  should_checkpoint: true
+  time_since_restore: 21.555770874023438
+  time_this_iter_s: 21.555770874023438
+  time_total_s: 21.555770874023438
+  timestamp: 1611100836
+  timesteps_since_restore: 0
+  training_iteration: 1
+  trial_id: b69f4_00019
+  valid_acc: 0.0015077271013946476
+  valid_loss: 1019.923436945135
+  
+[2m[36m(pid=17907)[0m Outputs training/eval saved on epoch 5
+== Status ==
+Memory usage on this node: 43.9/503.6 GiB
+Using AsyncHyperBand: num_stopped=0
+Bracket: Iter 1024.000: None | Iter 512.000: None | Iter 256.000: None | Iter 128.000: None | Iter 64.000: -769.4635758833451 | Iter 32.000: -801.7769636674361 | Iter 16.000: -878.7000954367898 | Iter 8.000: -869.1203599409623 | Iter 4.000: -886.1823300448332 | Iter 2.000: -886.6924313631924 | Iter 1.000: -879.9430084228516
+Bracket: Iter 1024.000: None | Iter 512.000: None | Iter 256.000: None | Iter 128.000: None | Iter 64.000: None | Iter 32.000: None | Iter 16.000: None | Iter 8.000: -714.4851407137784 | Iter 4.000: -774.033280806108 | Iter 2.000: -811.3414334383878
+Resources requested: 4/16 CPUs, 2/2 GPUs, 0.0/316.99 GiB heap, 0.0/96.48 GiB objects (0/1.0 accelerator_type:RTX)
+Current best trial: b69f4_00016 with valid_loss=703.260986328125 and parameters={'input': 5, 'hidden_lstm': 128, 'hidden_fc': 512, 'output': 70, 'dropout': 0.15000000000000002, 'lr': 4.3846901632390094e-05, 'epochs': 500, 'path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model_final', 'data_path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model_final/data', 'output_path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model_final/training_output'}
+Result logdir: /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12
+Number of trials: 20/20 (19 ERROR, 1 RUNNING)
++-------------------+----------+----------------------+-----------+----------+-------------+---------------+-------------+--------+------------------+--------------+-------------+
+| Trial name        | status   | loc                  |   dropout |   epochs |   hidden_fc |   hidden_lstm |          lr |   iter |   total time (s) |   valid_loss |   valid_acc |
+|-------------------+----------+----------------------+-----------+----------+-------------+---------------+-------------+--------+------------------+--------------+-------------|
+| inner_b69f4_00019 | RUNNING  | 172.26.105.110:17907 |      0.15 |      500 |        1024 |           512 | 1.53074e-06 |      1 |          21.5558 |     1019.92  |  0.00150773 |
+| inner_b69f4_00000 | ERROR    |                      |      0.15 |     1000 |        1024 |           512 | 1.24089e-06 |     71 |         917.485  |      765.068 |  0.130795   |
+| inner_b69f4_00001 | ERROR    |                      |      0.1  |     5000 |        2048 |           512 | 3.49283e-05 |        |                  |              |             |
+| inner_b69f4_00002 | ERROR    |                      |      0.3  |    10000 |         256 |           256 | 3.64479e-05 |        |                  |              |             |
+| inner_b69f4_00003 | ERROR    |                      |      0.05 |      100 |        1024 |          2048 | 1.89765e-06 |        |                  |              |             |
+| inner_b69f4_00004 | ERROR    |                      |      0.3  |     5000 |        2048 |           128 | 6.51057e-05 |        |                  |              |             |
+| inner_b69f4_00005 | ERROR    |                      |      0.25 |      500 |         512 |           128 | 0.000150707 |        |                  |              |             |
+| inner_b69f4_00006 | ERROR    |                      |      0.15 |     1000 |         256 |          2048 | 6.76203e-06 |        |                  |              |             |
+| inner_b69f4_00007 | ERROR    |                      |      0.05 |      500 |         256 |           256 | 6.43356e-05 |        |                  |              |             |
+| inner_b69f4_00008 | ERROR    |                      |      0.3  |      500 |        2048 |           256 | 0.000184385 |        |                  |              |             |
+| inner_b69f4_00009 | ERROR    |                      |      0.25 |      500 |        1024 |           256 | 1.79676e-06 |        |                  |              |             |
+| inner_b69f4_00010 | ERROR    |                      |      0    |     5000 |        2048 |          1024 | 2.29104e-06 |        |                  |              |             |
+| inner_b69f4_00011 | ERROR    |                      |      0.2  |    10000 |         128 |          2048 | 9.27268e-06 |        |                  |              |             |
+| inner_b69f4_00012 | ERROR    |                      |      0.25 |     5000 |         512 |          2048 | 0.000258368 |        |                  |              |             |
+| inner_b69f4_00013 | ERROR    |                      |      0.15 |      500 |        2048 |          1024 | 6.92932e-06 |        |                  |              |             |
+| inner_b69f4_00014 | ERROR    |                      |      0.2  |      500 |         128 |          2048 | 4.37286e-05 |        |                  |              |             |
+| inner_b69f4_00015 | ERROR    |                      |      0.15 |     1000 |         128 |           512 | 3.77791e-06 |        |                  |              |             |
+| inner_b69f4_00016 | ERROR    |                      |      0.15 |      500 |         512 |           128 | 4.38469e-05 |     14 |         178.43   |      703.261 |  0.156427   |
+| inner_b69f4_00017 | ERROR    |                      |      0.15 |    10000 |         512 |          1024 | 0.00069217  |     14 |         180.313  |      783.089 |  0.0776479  |
+| inner_b69f4_00018 | ERROR    |                      |      0.05 |     1000 |         512 |          2048 | 9.15745e-06 |        |                  |              |             |
++-------------------+----------+----------------------+-----------+----------+-------------+---------------+-------------+--------+------------------+--------------+-------------+
+Number of errored trials: 19
++-------------------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Trial name        |   # failures | error file                                                                                                                                                                                      |
+|-------------------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| inner_b69f4_00000 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00000_0_dropout=0.15,epochs=1000,hidden_fc=1024,hidden_lstm=512,lr=1.2409e-06_2021-01-19_15-55-12/error.txt   |
+| inner_b69f4_00001 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00001_1_dropout=0.1,epochs=5000,hidden_fc=2048,hidden_lstm=512,lr=3.4928e-05_2021-01-19_16-10-44/error.txt    |
+| inner_b69f4_00002 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00002_2_dropout=0.3,epochs=10000,hidden_fc=256,hidden_lstm=256,lr=3.6448e-05_2021-01-19_16-10-47/error.txt    |
+| inner_b69f4_00003 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00003_3_dropout=0.05,epochs=100,hidden_fc=1024,hidden_lstm=2048,lr=1.8977e-06_2021-01-19_16-10-49/error.txt   |
+| inner_b69f4_00004 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00004_4_dropout=0.3,epochs=5000,hidden_fc=2048,hidden_lstm=128,lr=6.5106e-05_2021-01-19_16-10-50/error.txt    |
+| inner_b69f4_00005 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00005_5_dropout=0.25,epochs=500,hidden_fc=512,hidden_lstm=128,lr=0.00015071_2021-01-19_16-10-52/error.txt     |
+| inner_b69f4_00006 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00006_6_dropout=0.15,epochs=1000,hidden_fc=256,hidden_lstm=2048,lr=6.762e-06_2021-01-19_16-10-53/error.txt    |
+| inner_b69f4_00007 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00007_7_dropout=0.05,epochs=500,hidden_fc=256,hidden_lstm=256,lr=6.4336e-05_2021-01-19_16-10-55/error.txt     |
+| inner_b69f4_00008 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00008_8_dropout=0.3,epochs=500,hidden_fc=2048,hidden_lstm=256,lr=0.00018439_2021-01-19_16-10-56/error.txt     |
+| inner_b69f4_00009 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00009_9_dropout=0.25,epochs=500,hidden_fc=1024,hidden_lstm=256,lr=1.7968e-06_2021-01-19_16-10-57/error.txt    |
+| inner_b69f4_00010 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00010_10_dropout=0.0,epochs=5000,hidden_fc=2048,hidden_lstm=1024,lr=2.291e-06_2021-01-19_16-10-59/error.txt   |
+| inner_b69f4_00011 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00011_11_dropout=0.2,epochs=10000,hidden_fc=128,hidden_lstm=2048,lr=9.2727e-06_2021-01-19_16-11-01/error.txt  |
+| inner_b69f4_00012 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00012_12_dropout=0.25,epochs=5000,hidden_fc=512,hidden_lstm=2048,lr=0.00025837_2021-01-19_16-11-02/error.txt  |
+| inner_b69f4_00013 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00013_13_dropout=0.15,epochs=500,hidden_fc=2048,hidden_lstm=1024,lr=6.9293e-06_2021-01-19_16-11-03/error.txt  |
+| inner_b69f4_00014 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00014_14_dropout=0.2,epochs=500,hidden_fc=128,hidden_lstm=2048,lr=4.3729e-05_2021-01-19_16-11-05/error.txt    |
+| inner_b69f4_00015 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00015_15_dropout=0.15,epochs=1000,hidden_fc=128,hidden_lstm=512,lr=3.7779e-06_2021-01-19_16-11-06/error.txt   |
+| inner_b69f4_00016 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00016_16_dropout=0.15,epochs=500,hidden_fc=512,hidden_lstm=128,lr=4.3847e-05_2021-01-19_16-11-08/error.txt    |
+| inner_b69f4_00017 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00017_17_dropout=0.15,epochs=10000,hidden_fc=512,hidden_lstm=1024,lr=0.00069217_2021-01-19_16-19-50/error.txt |
+| inner_b69f4_00018 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00018_18_dropout=0.05,epochs=1000,hidden_fc=512,hidden_lstm=2048,lr=9.1575e-06_2021-01-19_20-49-37/error.txt  |
++-------------------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+[2m[36m(pid=17907)[0m Epoch: 6, Loss: 1050.6063559055328
+[2m[36m(pid=17907)[0m Epoch: 7, Loss: 1049.0103166103363
+[2m[36m(pid=17907)[0m Epoch: 8, Loss: 1047.5897464752197
+[2m[36m(pid=17907)[0m Epoch: 9, Loss: 1045.6130962371826
+[2m[36m(pid=17907)[0m Epoch: 10, Loss: 1044.200823545456
+[2m[36m(pid=17907)[0m Validation Loss: 1012.3968672318892, Accuracy: 0.0011307953260459858
+Result for inner_b69f4_00019:
+  date: 2021-01-20_00-00-48
+  done: true
+  experiment_id: f93b61d3a72b4d429bfd830ac1a6396f
+  experiment_tag: 19_dropout=0.15,epochs=500,hidden_fc=1024,hidden_lstm=512,lr=1.5307e-06
+  hostname: veuc10
+  iterations_since_restore: 2
+  node_ip: 172.26.105.110
+  pid: 17907
+  should_checkpoint: true
+  time_since_restore: 33.62632775306702
+  time_this_iter_s: 12.070556879043579
+  time_total_s: 33.62632775306702
+  timestamp: 1611100848
+  timesteps_since_restore: 0
+  training_iteration: 2
+  trial_id: b69f4_00019
+  valid_acc: 0.0011307953260459858
+  valid_loss: 1012.3968672318892
+  
+[2m[36m(pid=17907)[0m Outputs training/eval saved on epoch 10
+== Status ==
+Memory usage on this node: 43.5/503.6 GiB
+Using AsyncHyperBand: num_stopped=1
+Bracket: Iter 1024.000: None | Iter 512.000: None | Iter 256.000: None | Iter 128.000: None | Iter 64.000: -769.4635758833451 | Iter 32.000: -801.7769636674361 | Iter 16.000: -878.7000954367898 | Iter 8.000: -869.1203599409623 | Iter 4.000: -886.1823300448332 | Iter 2.000: -886.6924313631924 | Iter 1.000: -879.9430084228516
+Bracket: Iter 1024.000: None | Iter 512.000: None | Iter 256.000: None | Iter 128.000: None | Iter 64.000: None | Iter 32.000: None | Iter 16.000: None | Iter 8.000: -714.4851407137784 | Iter 4.000: -774.033280806108 | Iter 2.000: -911.8691503351386
+Resources requested: 4/16 CPUs, 2/2 GPUs, 0.0/316.99 GiB heap, 0.0/96.48 GiB objects (0/1.0 accelerator_type:RTX)
+Current best trial: b69f4_00016 with valid_loss=703.260986328125 and parameters={'input': 5, 'hidden_lstm': 128, 'hidden_fc': 512, 'output': 70, 'dropout': 0.15000000000000002, 'lr': 4.3846901632390094e-05, 'epochs': 500, 'path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model_final', 'data_path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model_final/data', 'output_path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model_final/training_output'}
+Result logdir: /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12
+Number of trials: 20/20 (19 ERROR, 1 RUNNING)
++-------------------+----------+----------------------+-----------+----------+-------------+---------------+-------------+--------+------------------+--------------+-------------+
+| Trial name        | status   | loc                  |   dropout |   epochs |   hidden_fc |   hidden_lstm |          lr |   iter |   total time (s) |   valid_loss |   valid_acc |
+|-------------------+----------+----------------------+-----------+----------+-------------+---------------+-------------+--------+------------------+--------------+-------------|
+| inner_b69f4_00019 | RUNNING  | 172.26.105.110:17907 |      0.15 |      500 |        1024 |           512 | 1.53074e-06 |      2 |          33.6263 |     1012.4   |   0.0011308 |
+| inner_b69f4_00000 | ERROR    |                      |      0.15 |     1000 |        1024 |           512 | 1.24089e-06 |     71 |         917.485  |      765.068 |   0.130795  |
+| inner_b69f4_00001 | ERROR    |                      |      0.1  |     5000 |        2048 |           512 | 3.49283e-05 |        |                  |              |             |
+| inner_b69f4_00002 | ERROR    |                      |      0.3  |    10000 |         256 |           256 | 3.64479e-05 |        |                  |              |             |
+| inner_b69f4_00003 | ERROR    |                      |      0.05 |      100 |        1024 |          2048 | 1.89765e-06 |        |                  |              |             |
+| inner_b69f4_00004 | ERROR    |                      |      0.3  |     5000 |        2048 |           128 | 6.51057e-05 |        |                  |              |             |
+| inner_b69f4_00005 | ERROR    |                      |      0.25 |      500 |         512 |           128 | 0.000150707 |        |                  |              |             |
+| inner_b69f4_00006 | ERROR    |                      |      0.15 |     1000 |         256 |          2048 | 6.76203e-06 |        |                  |              |             |
+| inner_b69f4_00007 | ERROR    |                      |      0.05 |      500 |         256 |           256 | 6.43356e-05 |        |                  |              |             |
+| inner_b69f4_00008 | ERROR    |                      |      0.3  |      500 |        2048 |           256 | 0.000184385 |        |                  |              |             |
+| inner_b69f4_00009 | ERROR    |                      |      0.25 |      500 |        1024 |           256 | 1.79676e-06 |        |                  |              |             |
+| inner_b69f4_00010 | ERROR    |                      |      0    |     5000 |        2048 |          1024 | 2.29104e-06 |        |                  |              |             |
+| inner_b69f4_00011 | ERROR    |                      |      0.2  |    10000 |         128 |          2048 | 9.27268e-06 |        |                  |              |             |
+| inner_b69f4_00012 | ERROR    |                      |      0.25 |     5000 |         512 |          2048 | 0.000258368 |        |                  |              |             |
+| inner_b69f4_00013 | ERROR    |                      |      0.15 |      500 |        2048 |          1024 | 6.92932e-06 |        |                  |              |             |
+| inner_b69f4_00014 | ERROR    |                      |      0.2  |      500 |         128 |          2048 | 4.37286e-05 |        |                  |              |             |
+| inner_b69f4_00015 | ERROR    |                      |      0.15 |     1000 |         128 |           512 | 3.77791e-06 |        |                  |              |             |
+| inner_b69f4_00016 | ERROR    |                      |      0.15 |      500 |         512 |           128 | 4.38469e-05 |     14 |         178.43   |      703.261 |   0.156427  |
+| inner_b69f4_00017 | ERROR    |                      |      0.15 |    10000 |         512 |          1024 | 0.00069217  |     14 |         180.313  |      783.089 |   0.0776479 |
+| inner_b69f4_00018 | ERROR    |                      |      0.05 |     1000 |         512 |          2048 | 9.15745e-06 |        |                  |              |             |
++-------------------+----------+----------------------+-----------+----------+-------------+---------------+-------------+--------+------------------+--------------+-------------+
+Number of errored trials: 19
++-------------------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Trial name        |   # failures | error file                                                                                                                                                                                      |
+|-------------------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| inner_b69f4_00000 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00000_0_dropout=0.15,epochs=1000,hidden_fc=1024,hidden_lstm=512,lr=1.2409e-06_2021-01-19_15-55-12/error.txt   |
+| inner_b69f4_00001 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00001_1_dropout=0.1,epochs=5000,hidden_fc=2048,hidden_lstm=512,lr=3.4928e-05_2021-01-19_16-10-44/error.txt    |
+| inner_b69f4_00002 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00002_2_dropout=0.3,epochs=10000,hidden_fc=256,hidden_lstm=256,lr=3.6448e-05_2021-01-19_16-10-47/error.txt    |
+| inner_b69f4_00003 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00003_3_dropout=0.05,epochs=100,hidden_fc=1024,hidden_lstm=2048,lr=1.8977e-06_2021-01-19_16-10-49/error.txt   |
+| inner_b69f4_00004 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00004_4_dropout=0.3,epochs=5000,hidden_fc=2048,hidden_lstm=128,lr=6.5106e-05_2021-01-19_16-10-50/error.txt    |
+| inner_b69f4_00005 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00005_5_dropout=0.25,epochs=500,hidden_fc=512,hidden_lstm=128,lr=0.00015071_2021-01-19_16-10-52/error.txt     |
+| inner_b69f4_00006 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00006_6_dropout=0.15,epochs=1000,hidden_fc=256,hidden_lstm=2048,lr=6.762e-06_2021-01-19_16-10-53/error.txt    |
+| inner_b69f4_00007 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00007_7_dropout=0.05,epochs=500,hidden_fc=256,hidden_lstm=256,lr=6.4336e-05_2021-01-19_16-10-55/error.txt     |
+| inner_b69f4_00008 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00008_8_dropout=0.3,epochs=500,hidden_fc=2048,hidden_lstm=256,lr=0.00018439_2021-01-19_16-10-56/error.txt     |
+| inner_b69f4_00009 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00009_9_dropout=0.25,epochs=500,hidden_fc=1024,hidden_lstm=256,lr=1.7968e-06_2021-01-19_16-10-57/error.txt    |
+| inner_b69f4_00010 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00010_10_dropout=0.0,epochs=5000,hidden_fc=2048,hidden_lstm=1024,lr=2.291e-06_2021-01-19_16-10-59/error.txt   |
+| inner_b69f4_00011 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00011_11_dropout=0.2,epochs=10000,hidden_fc=128,hidden_lstm=2048,lr=9.2727e-06_2021-01-19_16-11-01/error.txt  |
+| inner_b69f4_00012 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00012_12_dropout=0.25,epochs=5000,hidden_fc=512,hidden_lstm=2048,lr=0.00025837_2021-01-19_16-11-02/error.txt  |
+| inner_b69f4_00013 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00013_13_dropout=0.15,epochs=500,hidden_fc=2048,hidden_lstm=1024,lr=6.9293e-06_2021-01-19_16-11-03/error.txt  |
+| inner_b69f4_00014 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00014_14_dropout=0.2,epochs=500,hidden_fc=128,hidden_lstm=2048,lr=4.3729e-05_2021-01-19_16-11-05/error.txt    |
+| inner_b69f4_00015 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00015_15_dropout=0.15,epochs=1000,hidden_fc=128,hidden_lstm=512,lr=3.7779e-06_2021-01-19_16-11-06/error.txt   |
+| inner_b69f4_00016 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00016_16_dropout=0.15,epochs=500,hidden_fc=512,hidden_lstm=128,lr=4.3847e-05_2021-01-19_16-11-08/error.txt    |
+| inner_b69f4_00017 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00017_17_dropout=0.15,epochs=10000,hidden_fc=512,hidden_lstm=1024,lr=0.00069217_2021-01-19_16-19-50/error.txt |
+| inner_b69f4_00018 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00018_18_dropout=0.05,epochs=1000,hidden_fc=512,hidden_lstm=2048,lr=9.1575e-06_2021-01-19_20-49-37/error.txt  |
++-------------------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+== Status ==
+Memory usage on this node: 43.5/503.6 GiB
+Using AsyncHyperBand: num_stopped=1
+Bracket: Iter 1024.000: None | Iter 512.000: None | Iter 256.000: None | Iter 128.000: None | Iter 64.000: -769.4635758833451 | Iter 32.000: -801.7769636674361 | Iter 16.000: -878.7000954367898 | Iter 8.000: -869.1203599409623 | Iter 4.000: -886.1823300448332 | Iter 2.000: -886.6924313631924 | Iter 1.000: -879.9430084228516
+Bracket: Iter 1024.000: None | Iter 512.000: None | Iter 256.000: None | Iter 128.000: None | Iter 64.000: None | Iter 32.000: None | Iter 16.000: None | Iter 8.000: -714.4851407137784 | Iter 4.000: -774.033280806108 | Iter 2.000: -911.8691503351386
+Resources requested: 0/16 CPUs, 0/2 GPUs, 0.0/316.99 GiB heap, 0.0/96.48 GiB objects (0/1.0 accelerator_type:RTX)
+Current best trial: b69f4_00016 with valid_loss=703.260986328125 and parameters={'input': 5, 'hidden_lstm': 128, 'hidden_fc': 512, 'output': 70, 'dropout': 0.15000000000000002, 'lr': 4.3846901632390094e-05, 'epochs': 500, 'path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model_final', 'data_path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model_final/data', 'output_path': '/home/usuaris/veu/lluis.guardia/youtubeViewsProject/model_final/training_output'}
+Result logdir: /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12
+Number of trials: 20/20 (19 ERROR, 1 TERMINATED)
++-------------------+------------+-------+-----------+----------+-------------+---------------+-------------+--------+------------------+--------------+-------------+
+| Trial name        | status     | loc   |   dropout |   epochs |   hidden_fc |   hidden_lstm |          lr |   iter |   total time (s) |   valid_loss |   valid_acc |
+|-------------------+------------+-------+-----------+----------+-------------+---------------+-------------+--------+------------------+--------------+-------------|
+| inner_b69f4_00019 | TERMINATED |       |      0.15 |      500 |        1024 |           512 | 1.53074e-06 |      2 |          33.6263 |     1012.4   |   0.0011308 |
+| inner_b69f4_00000 | ERROR      |       |      0.15 |     1000 |        1024 |           512 | 1.24089e-06 |     71 |         917.485  |      765.068 |   0.130795  |
+| inner_b69f4_00001 | ERROR      |       |      0.1  |     5000 |        2048 |           512 | 3.49283e-05 |        |                  |              |             |
+| inner_b69f4_00002 | ERROR      |       |      0.3  |    10000 |         256 |           256 | 3.64479e-05 |        |                  |              |             |
+| inner_b69f4_00003 | ERROR      |       |      0.05 |      100 |        1024 |          2048 | 1.89765e-06 |        |                  |              |             |
+| inner_b69f4_00004 | ERROR      |       |      0.3  |     5000 |        2048 |           128 | 6.51057e-05 |        |                  |              |             |
+| inner_b69f4_00005 | ERROR      |       |      0.25 |      500 |         512 |           128 | 0.000150707 |        |                  |              |             |
+| inner_b69f4_00006 | ERROR      |       |      0.15 |     1000 |         256 |          2048 | 6.76203e-06 |        |                  |              |             |
+| inner_b69f4_00007 | ERROR      |       |      0.05 |      500 |         256 |           256 | 6.43356e-05 |        |                  |              |             |
+| inner_b69f4_00008 | ERROR      |       |      0.3  |      500 |        2048 |           256 | 0.000184385 |        |                  |              |             |
+| inner_b69f4_00009 | ERROR      |       |      0.25 |      500 |        1024 |           256 | 1.79676e-06 |        |                  |              |             |
+| inner_b69f4_00010 | ERROR      |       |      0    |     5000 |        2048 |          1024 | 2.29104e-06 |        |                  |              |             |
+| inner_b69f4_00011 | ERROR      |       |      0.2  |    10000 |         128 |          2048 | 9.27268e-06 |        |                  |              |             |
+| inner_b69f4_00012 | ERROR      |       |      0.25 |     5000 |         512 |          2048 | 0.000258368 |        |                  |              |             |
+| inner_b69f4_00013 | ERROR      |       |      0.15 |      500 |        2048 |          1024 | 6.92932e-06 |        |                  |              |             |
+| inner_b69f4_00014 | ERROR      |       |      0.2  |      500 |         128 |          2048 | 4.37286e-05 |        |                  |              |             |
+| inner_b69f4_00015 | ERROR      |       |      0.15 |     1000 |         128 |           512 | 3.77791e-06 |        |                  |              |             |
+| inner_b69f4_00016 | ERROR      |       |      0.15 |      500 |         512 |           128 | 4.38469e-05 |     14 |         178.43   |      703.261 |   0.156427  |
+| inner_b69f4_00017 | ERROR      |       |      0.15 |    10000 |         512 |          1024 | 0.00069217  |     14 |         180.313  |      783.089 |   0.0776479 |
+| inner_b69f4_00018 | ERROR      |       |      0.05 |     1000 |         512 |          2048 | 9.15745e-06 |        |                  |              |             |
++-------------------+------------+-------+-----------+----------+-------------+---------------+-------------+--------+------------------+--------------+-------------+
+Number of errored trials: 19
++-------------------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Trial name        |   # failures | error file                                                                                                                                                                                      |
+|-------------------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| inner_b69f4_00000 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00000_0_dropout=0.15,epochs=1000,hidden_fc=1024,hidden_lstm=512,lr=1.2409e-06_2021-01-19_15-55-12/error.txt   |
+| inner_b69f4_00001 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00001_1_dropout=0.1,epochs=5000,hidden_fc=2048,hidden_lstm=512,lr=3.4928e-05_2021-01-19_16-10-44/error.txt    |
+| inner_b69f4_00002 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00002_2_dropout=0.3,epochs=10000,hidden_fc=256,hidden_lstm=256,lr=3.6448e-05_2021-01-19_16-10-47/error.txt    |
+| inner_b69f4_00003 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00003_3_dropout=0.05,epochs=100,hidden_fc=1024,hidden_lstm=2048,lr=1.8977e-06_2021-01-19_16-10-49/error.txt   |
+| inner_b69f4_00004 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00004_4_dropout=0.3,epochs=5000,hidden_fc=2048,hidden_lstm=128,lr=6.5106e-05_2021-01-19_16-10-50/error.txt    |
+| inner_b69f4_00005 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00005_5_dropout=0.25,epochs=500,hidden_fc=512,hidden_lstm=128,lr=0.00015071_2021-01-19_16-10-52/error.txt     |
+| inner_b69f4_00006 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00006_6_dropout=0.15,epochs=1000,hidden_fc=256,hidden_lstm=2048,lr=6.762e-06_2021-01-19_16-10-53/error.txt    |
+| inner_b69f4_00007 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00007_7_dropout=0.05,epochs=500,hidden_fc=256,hidden_lstm=256,lr=6.4336e-05_2021-01-19_16-10-55/error.txt     |
+| inner_b69f4_00008 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00008_8_dropout=0.3,epochs=500,hidden_fc=2048,hidden_lstm=256,lr=0.00018439_2021-01-19_16-10-56/error.txt     |
+| inner_b69f4_00009 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00009_9_dropout=0.25,epochs=500,hidden_fc=1024,hidden_lstm=256,lr=1.7968e-06_2021-01-19_16-10-57/error.txt    |
+| inner_b69f4_00010 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00010_10_dropout=0.0,epochs=5000,hidden_fc=2048,hidden_lstm=1024,lr=2.291e-06_2021-01-19_16-10-59/error.txt   |
+| inner_b69f4_00011 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00011_11_dropout=0.2,epochs=10000,hidden_fc=128,hidden_lstm=2048,lr=9.2727e-06_2021-01-19_16-11-01/error.txt  |
+| inner_b69f4_00012 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00012_12_dropout=0.25,epochs=5000,hidden_fc=512,hidden_lstm=2048,lr=0.00025837_2021-01-19_16-11-02/error.txt  |
+| inner_b69f4_00013 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00013_13_dropout=0.15,epochs=500,hidden_fc=2048,hidden_lstm=1024,lr=6.9293e-06_2021-01-19_16-11-03/error.txt  |
+| inner_b69f4_00014 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00014_14_dropout=0.2,epochs=500,hidden_fc=128,hidden_lstm=2048,lr=4.3729e-05_2021-01-19_16-11-05/error.txt    |
+| inner_b69f4_00015 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00015_15_dropout=0.15,epochs=1000,hidden_fc=128,hidden_lstm=512,lr=3.7779e-06_2021-01-19_16-11-06/error.txt   |
+| inner_b69f4_00016 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00016_16_dropout=0.15,epochs=500,hidden_fc=512,hidden_lstm=128,lr=4.3847e-05_2021-01-19_16-11-08/error.txt    |
+| inner_b69f4_00017 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00017_17_dropout=0.15,epochs=10000,hidden_fc=512,hidden_lstm=1024,lr=0.00069217_2021-01-19_16-19-50/error.txt |
+| inner_b69f4_00018 |            1 | /home/usuaris/veu/lluis.guardia/ray_results/inner_2021-01-19_15-55-12/inner_b69f4_00018_18_dropout=0.05,epochs=1000,hidden_fc=512,hidden_lstm=2048,lr=9.1575e-06_2021-01-19_20-49-37/error.txt  |
++-------------------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+Traceback (most recent call last):
+  File "tuningModel.py", line 631, in <module>
+    main(path=path, num_samples=args.iterations, max_num_epochs=10000, gpus_per_trial=2)
+  File "tuningModel.py", line 520, in main
+    scheduler=scheduler)
+  File "/home/usuaris/veu/lluis.guardia/lluis/lib/python3.6/site-packages/ray/tune/tune.py", line 434, in run
+    raise TuneError("Trials did not complete", incomplete_trials)
+ray.tune.error.TuneError: ('Trials did not complete', [inner_b69f4_00000, inner_b69f4_00001, inner_b69f4_00002, inner_b69f4_00003, inner_b69f4_00004, inner_b69f4_00005, inner_b69f4_00006, inner_b69f4_00007, inner_b69f4_00008, inner_b69f4_00009, inner_b69f4_00010, inner_b69f4_00011, inner_b69f4_00012, inner_b69f4_00013, inner_b69f4_00014, inner_b69f4_00015, inner_b69f4_00016, inner_b69f4_00017, inner_b69f4_00018])

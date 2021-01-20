@@ -463,7 +463,7 @@ def test_tuning(model, path, data_path, output_path, device="cpu"):
     if args.save_outputs == 1:
         save_testresults(output, 'outputs_test', data_path, path)
 
-    for diff in [0, 1, 2, 10]: #extra distance values for test evaluation
+    for diff in [0, 1, 2, 5, 10]: #extra distance values for test evaluation
         correct = computePerformanceTest(output, test_loader, diff, True)
 
     return correct
@@ -497,7 +497,7 @@ def main(path, num_samples=30, max_num_epochs=10000, gpus_per_trial=2):
         'output': 70,
         'dropout': tune.sample_from(lambda _: 0.05*np.random.randint(0, 7)), #dropout between 0 and 0.3
         'lr': tune.loguniform(1e-6, 1e-3),
-        'epochs': tune.choice([100, 500, 1000, 5000, 10000]),
+        'epochs': tune.choice([500, 1000, 2000, 5000, 10000]),
         'path': path,
         'data_path': data_path,
         'output_path': output_path
