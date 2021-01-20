@@ -494,7 +494,7 @@ def main(path, num_samples=30, max_num_epochs=10000, gpus_per_trial=2):
         'input': len(args.input_elements),
         'hidden_lstm': tune.sample_from(lambda _: 2**np.random.randint(7, 12)), #hidden layers between 128 and 2048
         'hidden_fc': tune.sample_from(lambda _: 2**np.random.randint(7, 12)),
-        'output': 70,
+        'output': 79,
         'dropout': tune.sample_from(lambda _: 0.05*np.random.randint(0, 7)), #dropout between 0 and 0.3
         'lr': tune.loguniform(1e-6, 1e-3),
         'epochs': tune.choice([500, 1000, 2000, 5000, 10000]),
