@@ -42,4 +42,5 @@ print('MERGED SHAPE:', df_total.shape)
 print('MERGED COLUMNS:', df_total.columns)
 
 df_total.to_csv(path+base_file+'_merged.csv', encoding='utf-8', index=False)
-print('last: 4020-19906-69117, 93043-83833')
+# print('last: 4020-19906-69117, 93043-83833')
+print('last: 209435, 16175, 17496, 15815, 17504, total: 276425')

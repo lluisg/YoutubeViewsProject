@@ -37,8 +37,14 @@ if __name__ == "__main__":
     none = 0
     repeated = 0
     saved = False
+    first_notnone = False
+
     for ind, pid in enumerate(list_pseudo):
         if pid not in list_ids and pid not in notfound_list:
+            if not first_notnone:
+                print('Starting now with first not None value at', ind)
+                first_notnone = True
+
             real_id = get_real_id(pid)
             if real_id != None:
                 # print(ind, real_id)

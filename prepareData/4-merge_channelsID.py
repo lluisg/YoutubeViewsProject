@@ -3,8 +3,9 @@ import glob
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-# files = ['ChannelIDTrending', 'ChannelIDDataworld']
-files = ['ChannelIDTrending', 'ChannelIDDataworld', 'ChannelID8M']
+
+files = ['ChannelIDTrending', 'ChannelIDDataworld', 'ChannelID8M_final'']
+
 list_channels = []
 for f in files:
     print('Reading ', f)
@@ -17,6 +18,7 @@ for f in files:
 
     print('length: ', len(list_channels)-initial_length)
 
+
 list_channels = list(filter(None, list_channels))
 print('\nFinal length: ', len(list_channels))
 set_channels = set(list_channels)
@@ -25,7 +27,8 @@ print('without duplicates: ', len(list_channels_nodupli))
 
 df_channels = pd.DataFrame(list_channels_nodupli,columns=['channelId'])
 df_channels.to_csv('../DATA/Final_ChannelID.csv', encoding='utf-8', index=True)
-print('last: 4020-19906-69117, 93043-83833')
+print('last: 4020-19906-69117\n13-755-719-713\n 93043-83833')
+
 
 df_splitA, df_splitB = train_test_split(df_channels, test_size=0.5, random_state=42, shuffle=False)
 df_split1, df_split2 = train_test_split(df_splitA, test_size=0.5, random_state=42, shuffle=False)
