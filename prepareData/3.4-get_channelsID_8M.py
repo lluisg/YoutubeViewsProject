@@ -120,7 +120,6 @@ if __name__ == "__main__":
         got_correct = 0
         got_wrong = 0
 
-
         try:
             # Ask for the videos info for each channel
             while index != -1:

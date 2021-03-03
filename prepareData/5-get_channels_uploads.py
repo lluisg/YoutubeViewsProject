@@ -172,13 +172,11 @@ if __name__ == "__main__":
     # file_name = 'DATA/ChannelIDTrending.csv'
     output_name = path+'/Final_VideosData'+str(KEY)+'.csv'
 
-
     # Retrieve the channels data from the DDBB
     df = pd.read_csv(file_name, encoding = "utf-8")
     # Get the index of the last element we obtained
     index = get_next_channel_index(df)
     print(index)
-
 
     # Creating pandas data frame appending to the previously obtained data
     if os.path.isfile(output_name):

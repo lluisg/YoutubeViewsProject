@@ -12,7 +12,6 @@ if __name__ == "__main__":
     df.drop('pseudoId', inplace=True, axis=1)
     df.to_csv('../DATA/videosID8M_final.csv', encoding='utf-8', index=False)
 
-
     df_splitA, df_splitB = train_test_split(df, test_size=0.5, random_state=42, shuffle=False)
     df_split1, df_split2 = train_test_split(df_splitA, test_size=0.5, random_state=42, shuffle=False)
     df_split3, df_split4 = train_test_split(df_splitB, test_size=0.5, random_state=42, shuffle=False)

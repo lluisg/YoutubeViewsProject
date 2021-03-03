@@ -44,3 +44,21 @@ print('MERGED COLUMNS:', df_total.columns)
 df_total.to_csv(path+base_file+'_merged.csv', encoding='utf-8', index=False)
 # print('last: 4020-19906-69117, 93043-83833')
 print('last: 209435, 16175, 17496, 15815, 17504, total: 276425')
+
+readed = []
+not_readed = []
+for f in ['1', '2', '3', '4']:
+    with open(path+'list_channels'+f+'.txt', 'r') as f:
+        lines = f.readlines()
+    readed.append(lines)
+    with open(path+'list_channels_not'+f+'.txt', 'r') as f:
+        lines_n = f.readlines()
+    not_readed.append(lines_n)
+
+with open(path+'list_channels.txt', 'w') as f:
+    for l in readed:
+        f.write(l+'\n')
+with open(path+'list_channels_not.txt', 'w') as f:
+    for l in not_readed:
+        f.write(l+'\n')
+        

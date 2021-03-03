@@ -19,8 +19,8 @@ if __name__ == "__main__":
     df_pseudo = pd.read_csv('../DATA/videospseudoID8M.csv', encoding = "utf-8")
     list_pseudo = df_pseudo['pseudoId'].values.tolist()
 
-    if os.path.isfile('../DATA/videosID8M.csv'):
-        df_ids = pd.read_csv('../DATA/videosID8M.csv', encoding = "utf-8")
+    if os.path.isfile('../DATA/videosID8M_aux.csv'):
+        df_ids = pd.read_csv('../DATA/videosID8M_aux.csv', encoding = "utf-8")
         list_ids = df_ids['pseudoId'].values.tolist()
     else:
         df_ids = None
