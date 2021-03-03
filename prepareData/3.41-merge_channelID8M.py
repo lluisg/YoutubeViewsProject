@@ -24,6 +24,7 @@ print('\nFinal length: ', len(list_channels))
 set_channels = set(list_channels)
 list_channels_nodupli = list(set_channels)
 print('without duplicates: ', len(list_channels_nodupli))
+print('last: 69117-17800-33391-35770-40262\n 196340-171303\n\n')
 
 with open('../DATA/channelID8M/list_8M_channelsId_final.txt', 'w') as l: #list of channels found into txt files
     for el in list_channels_nodupli:
@@ -31,7 +32,8 @@ with open('../DATA/channelID8M/list_8M_channelsId_final.txt', 'w') as l: #list o
 
 df_channels = pd.DataFrame(list_channels_nodupli,columns=['channelId'])
 df_channels.to_csv('../DATA/ChannelID8M_final.csv', encoding='utf-8', index=True) #list of channels found into csv files0
-print('last: 69117-1949-11325-14687-14574\n 11652-101412\n\n')
+
+
 
 # merge incorrect channels too
 full_list = []
@@ -52,8 +54,8 @@ print('\nFinal length: ', len(full_list))
 full_list_set = set(full_list)
 full_list_unique = list(full_list_set)
 print('without duplicates: ', len(full_list_unique))
+print('last: 1018-311-509-598-658\n 6148-3094')
 
 with open('../DATA/channelID8M/list_8M_channelsId_notF_final.txt', 'w') as l: #list of channels NOT found into txt files
     for el in full_list_unique:
         l.write(str(el))
-print('last: 30-155-234-216\n 4707-1653')

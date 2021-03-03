@@ -10,7 +10,7 @@ import json
 from dotenv import load_dotenv
 load_dotenv()
 import os
-KEY = 4
+KEY =4
 
 def get_key(KEY):
     print('Using key', KEY)
