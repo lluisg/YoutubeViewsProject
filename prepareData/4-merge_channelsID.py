@@ -3,7 +3,7 @@ import glob
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-files = ['ChannelIDTrending', 'ChannelIDDataworld', 'ChannelID8M_final'']
+files = ['ChannelIDTrending', 'ChannelIDDataworld', 'ChannelID8M_final']
 
 list_channels = []
 for f in files:
@@ -26,7 +26,7 @@ print('without duplicates: ', len(list_channels_nodupli))
 
 df_channels = pd.DataFrame(list_channels_nodupli,columns=['channelId'])
 df_channels.to_csv('../DATA/Final_ChannelID.csv', encoding='utf-8', index=True)
-print('last: 4020-19906-69117\n13-755-719-713\n 93043-83833')
+print('last: 4020-19906-155128  \n 179054-171295')
 
 
 df_splitA, df_splitB = train_test_split(df_channels, test_size=0.5, random_state=42, shuffle=False)

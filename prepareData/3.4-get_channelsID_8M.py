@@ -10,7 +10,7 @@ import json
 from dotenv import load_dotenv
 load_dotenv()
 import os
-KEY =4
+KEY = 4
 
 def get_key(KEY):
     print('Using key', KEY)
@@ -66,31 +66,28 @@ def check_channel_found(name):
     else:
         return False
 
-
-def get_next_channel_index(file):
-    with open('../DATA/channelID8M/list_8M_channelsId'+str(KEY)+'.txt', 'r') as f:
+def read_txt_file(file_path):
+    with open(file_path, 'r') as f:
         content_i = f.readlines()
-    list_channels = [line.rstrip('\n') for line in content_i]
-    with open('../DATA/channelID8M/list_8M_channelsId_notF'+str(KEY)+'.txt', 'r') as f:
-        content_not_f = f.readlines()
-    list_notfound_channels = [line.rstrip('\n') for line in content_not_f]
+    list_channels = [line.rstrip('\n') for line in content_i if line]
+    return list_channels
 
-    if len(list_channels) > 0 or len(list_notfound_channels) > 0:
-        # df_movies = pd.read_csv('../DATA/channelID8M/videosID8M_final'+str(KEY)+'.csv', encoding = "ISO-8859-1")
-        found = False
 
-        for index, row in file.iterrows():
-            chan = row['videosId']
-            if chan not in list_channels and chan not in list_notfound_channels:
-                df_read = file.loc[file['videosId'] == chan]
-                index = df_read.index[0]
-                found = True
-                break
-        if not found:
-            return -1
+def get_next_channel_index(file, lists_channels):
+    # df_movies = pd.read_csv('../DATA/channelID8M/videosID8M_final'+str(KEY)+'.csv', encoding = "ISO-8859-1")
+    found = False
 
-    else:
-        index = 0
+    for index, row in file.iterrows():
+        chan = row['videosId']
+        chann_already = [chan in x for x in lists_channels]
+        if True not in chann_already:
+            df_read = file.loc[file['videosId'] == chan]
+            index = df_read.index[0]
+            found = True
+            break
+    if not found:
+        return -1
+
     return index
 
 
@@ -108,11 +105,15 @@ if __name__ == "__main__":
         list_channelID = []
 
     # Get the index of the last element we obtained
-    index = get_next_channel_index(df_movies)
+    ids_alreadyfound = read_txt_file('../DATA/channelID8M/list_8M_channelsId.txt')
+    ids_alreadyincorrect = read_txt_file('../DATA/channelID8M/list_8M_channelsId_notF.txt')
+    print('Previous ids obtained')
+    index = get_next_channel_index(df_movies, [ids_alreadyfound, ids_alreadyincorrect])
     print('Starting from: ', index)
 
 
     number_days = 0
+    initial_index = 0
     while number_days < 365:
         print('DAY '+str(number_days)+':', datetime.now())
 
@@ -124,29 +125,36 @@ if __name__ == "__main__":
             # Ask for the videos info for each channel
             while index != -1:
                 name = df_movies.iloc[index].values[0]
-                if not check_channel_found(name):
-                    channelId = get_youtube_channelId(name)
+                # if not check_channel_found(name):
+                channelId = get_youtube_channelId(name)
 
-                    if channelId is not None:
-                        got_correct += 1
-                        list_channelID.append(channelId)
+                if channelId is not None:
+                    list_channelID.append(channelId)
 
-                        # Save into csv format in the desired location
-                        df_previous = pd.DataFrame(list_channelID, columns=['channelId'])
-                        df_previous.to_csv('../DATA/channelID8M/ChannelID8M'+str(KEY)+'.csv', encoding='utf-8', index=True)
-                    else:
-                        got_wrong += 1
+                    # Save into csv format in the desired location
+                    df_previous = pd.DataFrame(list_channelID, columns=['channelId'])
+                    df_previous.to_csv('../DATA/channelID8M/ChannelID8M'+str(KEY)+'.csv', encoding='utf-8', index=True)
+                    got_correct += 1
+                else:
+                    got_wrong += 1
 
-                    if (got_correct+got_wrong)%1000 == 0:
-                        print(got_correct+got_wrong, 'channels got')
-                    index = get_next_channel_index(df_movies)
-                    # print('new index', index)
+                if (got_correct+got_wrong)%1000 == 0:
+                    print(got_correct+got_wrong, 'channels got, ', got_correct, 'got correct')
+                if initial_index+1000 < index:
+                    initial_index = index
+                    print('increased index by 1.000, now at:', initial_index)
+                ids_found = read_txt_file('../DATA/channelID8M/list_8M_channelsId'+str(KEY)+'.txt')
+                ids_incorrect = read_txt_file('../DATA/channelID8M/list_8M_channelsId_notF'+str(KEY)+'.txt')
+
+                index = get_next_channel_index(df_movies, \
+                    [ids_alreadyfound, ids_alreadyincorrect, ids_found, ids_incorrect])
 
         except HttpError:
             print('------  end of the usages for the key')
         except Exception as e:
-            print('-- another error ends usages for today')
-            # print(e)
+            print('-- theres an error on code, exception given with text:')
+            print(e)
+            print('end usages for today')
 
 
         print('Done for today: '+str(got_correct)+' videos correctly, '+str(got_wrong)+' wrongly')

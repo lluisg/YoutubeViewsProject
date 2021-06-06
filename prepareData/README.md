@@ -11,3 +11,9 @@ https://developers.google.com/youtube/v3/quickstart/python
 
 CONSOLE CLOUD GOOGLE -> keys
 https://console.cloud.google.com/apis/credentials?project=youtubetitlevalorator
+
+When preparing the ids, run 3.4 with different keys (normally 4) until when you want to stop
+then 3.41 to merge them into the _final files, and if everything is correct
+copy this _final.txt file into the .txt file, which is the one really used on
+the scripts to check already found ids (the .txt works as a savestate)
+Finally run 3.42 and you can run again 3.4

@@ -91,14 +91,6 @@ def youtube_playlist_data(channel_id, NUM_VIDEOS=20):
         print('-- unidentified playlist error ocurred')
         return None
 
-    # except Exception as e:
-    #     print('Uknown Error ocurred:', e)
-    #
-    #     with open(path+'/list_channels_not'+str(KEY)+'.txt', 'a') as f:
-    #         f.write(channel_id+'\n')
-    #     print('-- an error ocurred')
-    #     return None
-
 
 def channel_videos_data(id_channel):
     # This function asks for the videos of the channel and returns only the variables we are interested
@@ -141,53 +133,52 @@ def channel_videos_data(id_channel):
 
     return videos
 
-def get_next_channel_index(file_df):
-    with open(path+'/list_channels'+str(KEY)+'.txt', 'r') as f:
-        content_i = f.readlines()
-    list_channels = [line.rstrip('\n') for line in content_i]
-    with open(path+'/list_channels_not'+str(KEY)+'.txt', 'r') as f:
-        content_not_i = f.readlines()
-    list_notread_channels = [line.rstrip('\n') for line in content_not_i]
+def get_next_channel_index(file, lists_channels):
+    # df_movies = pd.read_csv('../DATA/channelID8M/videosID8M_final'+str(KEY)+'.csv', encoding = "ISO-8859-1")
+    found = False
 
-    if len(list_channels) > 0 or len(list_notread_channels) > 0:
-        found = False
-        for index, row in file_df.iterrows():
-            chan = row['channelId']
-            if chan not in list_channels and chan not in list_notread_channels:
-                df_read = file_df.loc[file_df['channelId'] == chan]
-                index = df_read.index[0]
-                found = True
-                break
-        if not found:
-            return -1
+    for index, row in file.iterrows():
+        chan = row['channelId']
+        chann_already = [chan in x for x in lists_channels]
+        if True not in chann_already:
+            df_read = file.loc[file['channelId'] == chan]
+            index = df_read.index[0]
+            found = True
+            break
+    if not found:
+        return -1
 
-    else:
-        index = 0
     return index
+
 
 if __name__ == "__main__":
     global path
+
     path = '../DATA/videosinfo'
     file_name = path+'/Final_ChannelID'+str(KEY)+'.csv'
-    # file_name = 'DATA/ChannelIDTrending.csv'
-    output_name = path+'/Final_VideosData'+str(KEY)+'.csv'
-
     # Retrieve the channels data from the DDBB
-    df = pd.read_csv(file_name, encoding = "utf-8")
-    # Get the index of the last element we obtained
-    index = get_next_channel_index(df)
-    print(index)
+    df_movies = pd.read_csv(file_name, encoding = "utf-8")
 
+    output_name = path+'/Final_VideosData'+str(KEY)+'.csv'
     # Creating pandas data frame appending to the previously obtained data
     if os.path.isfile(output_name):
         # df_previous = pd.read_csv('DATA/Final_VideosData.csv', encoding = "utf-8")
         df_previous = pd.read_csv(output_name, encoding = "utf-8", lineterminator='\n')
+        list_videosinfo = df_previous['channelId'].tolist()
     else:
         print('Creating Final_VideosData file from 0')
-        df_previous = None
+        list_videosinfo = []
+
+    # Get the index of the last element we obtained
+    ids_alreadyfound = read_txt_file('../DATA/videosinfo/list_channels.txt')
+    ids_alreadyincorrect = read_txt_file('../DATA/videosinfo/list_channels_not.txt')
+    print('Previous ids obtained')
+    index = get_next_channel_index(df_movies, [ids_alreadyfound, ids_alreadyincorrect])
+    print('Starting from: ', index)
 
     # Ask for the videos info for each channel
     number_days = 0
+    initial_index = 0
     while number_days < 365:
         print('DAY '+str(number_days)+':', datetime.now())
 
@@ -197,16 +188,21 @@ if __name__ == "__main__":
 
         try:
             while index != -1:
+                print('vid:', df.iloc[index])
                 video_id = df.iloc[index].values[1]
                 videos_list = channel_videos_data(video_id)
+
                 if videos_list is not None:
-                    got_correct += 1
-                    if df_previous is None:
-                        df_previous = pd.DataFrame(videos_list)
-                    else:
-                        df_previous = pd.concat([df_previous, pd.DataFrame(videos_list)], ignore_index=True)
+                    list_videosinfo.append(videos_list['channelId'])
+                    print(videos_list)
+                    print(list_videosinfo)
+                    aa
+
                     # Save into csv format in the desired location
+                    df_previous = pd.DataFrame(videos_list, , ignore_index=True)
                     df_previous.to_csv(output_name, encoding='utf-8', index=False)
+                    got_correct += 1
+
                 else:
                     got_wrong += 1
 
