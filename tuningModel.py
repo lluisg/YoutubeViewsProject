@@ -22,6 +22,8 @@ from sklearn.model_selection import train_test_split
 
 from model import LSTMModel
 
+from tqdm import tqdm
+
 def roundVisit(visit):
     # We decided that if we are rounding the vists on 1k, it would not help the
     # bigger visit videos, so a custom round function will be used.
@@ -29,18 +31,23 @@ def roundVisit(visit):
     # the 1k's below 10k, to 10k between 10k and 100k, etc.
     # So a 2.123.432 visits video will be rounded to 2M, but a 530.234 visits
     # video will be rounded to 500k
-    if visit < 1000:
+    # print('v', visit, type(visit))
+    if type(visit) is str:
+        visit = float(visit.replace("'", "").replace('b', ''))
+
+    if float(visit) < 1000.0:
         rounding_number = 1000
     else:
         power = math.floor(math.log10(visit))
         rounding_number = math.pow(10, power)
 
     rounded_result = round(visit/rounding_number)*rounding_number
-
     return rounded_result
 
 
 def convertDuration(time):
+    time = time.replace("b'", "").rstrip("'")
+
     s = 0
     m = 0
     h = 0
@@ -74,6 +81,8 @@ def convertDuration(time):
 
 def publi2value(publication):
     date = publication.split('T')[0]
+    if "b'" in date:
+        date = date.replace("b'", "")
     month, day, year = date.split('-')
 
     value = int(year)*10000 + int(month)*100 + int(day)
@@ -92,6 +101,16 @@ def value2tens(value):
 
     return result
 
+def checkfloat_notstr(list_floats):
+    auxlist = []
+    for float_var in list_floats:
+        if type(float_var) is str:
+            fv = float(float_var.replace("b'", "").rstrip("'"))
+        else:
+            fv = float_var
+        auxlist.append(fv)
+
+    return auxlist
 
 def prepareData(data_path):
     df = pd.read_csv('DATA/Final_videosDataClean.csv')
@@ -147,7 +166,7 @@ def prepareData(data_path):
     duration_channel = []
     comments_channel = []
 
-    for channel in list_channelId:
+    for channel in tqdm(list_channelId):
         ratio_likes = []
         viewsvideo = [int(value2tens(roundVisit(visit))) for visit in df.loc[df['channelId'] == channel]['viewCount'].tolist()]
         publicationvideo = [publi2value(publi) for publi in df.loc[df['channelId'] == channel]['publishedAt'].tolist()]
@@ -155,6 +174,11 @@ def prepareData(data_path):
         dislikesvideo = df.loc[df['channelId'] == channel]['dislikeCount'].tolist()
         durationvideo = [convertDuration(time) for time in df.loc[df['channelId'] == channel]['duration'].tolist()]
         commentsvideo = df.loc[df['channelId'] == channel]['commentCount'].tolist()
+
+        # check string dont have b'(viewsvideo already done in roundVisit, and publication in publi2value)
+        likesvideo = checkfloat_notstr(likesvideo)
+        dislikesvideo = checkfloat_notstr(dislikesvideo)
+        commentsvideo = checkfloat_notstr(commentsvideo)
 
 
         for likes, dislikes in zip(likesvideo, dislikesvideo):

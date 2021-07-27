@@ -19,22 +19,27 @@ for f in files:
 
 
 list_channels = list(filter(None, list_channels))
-print('\nFinal length: ', len(list_channels))
+print('\nfinal length: ', len(list_channels))
 set_channels = set(list_channels)
 list_channels_nodupli = list(set_channels)
 print('without duplicates: ', len(list_channels_nodupli))
 
-df_channels = pd.DataFrame(list_channels_nodupli,columns=['channelId'])
-df_channels.to_csv('../DATA/Final_ChannelID.csv', encoding='utf-8', index=True)
-print('last: 4020-19906-155128  \n 179054-171295')
+# df_channels = pd.DataFrame(list_channels_nodupli,columns=['channelId'])
+# df_channels.to_csv('../DATA/all_ChannelID.csv', encoding='utf-8', index=True)
+with open('../DATA/all_ChannelID.txt', 'w') as f:
+    for l in list_channels_nodupli:
+        f.write(l+'\n')
+print('\nlast: 4020-19906-155128  \ntotal: 179054-171295')
 
-
-df_splitA, df_splitB = train_test_split(df_channels, test_size=0.5, random_state=42, shuffle=False)
+df_splitA, df_splitB = train_test_split(list_channels_nodupli, test_size=0.5, random_state=42, shuffle=False)
 df_split1, df_split2 = train_test_split(df_splitA, test_size=0.5, random_state=42, shuffle=False)
 df_split3, df_split4 = train_test_split(df_splitB, test_size=0.5, random_state=42, shuffle=False)
 
-df_split1.to_csv('../DATA/videosinfo/Final_ChannelID1.csv', encoding='utf-8', index=True)
-df_split2.to_csv('../DATA/videosinfo/Final_ChannelID2.csv', encoding='utf-8', index=True)
-df_split3.to_csv('../DATA/videosinfo/Final_ChannelID3.csv', encoding='utf-8', index=True)
-df_split4.to_csv('../DATA/videosinfo/Final_ChannelID4.csv', encoding='utf-8', index=True)
+splits = [df_split1, df_split2, df_split3, df_split4]
+for file_number in range(1,5):
+    print('../DATA/videosinfo/all_ChannelID'+str(file_number)+'.txt')
+    with open('../DATA/videosinfo/all_ChannelID'+str(file_number)+'.txt', 'w') as f:
+        for l in splits[file_number-1]:
+            f.write(l+'\n')
+
 print('partition done')

@@ -17,8 +17,7 @@ def read_file(filename, check_r):
 
 if __name__ == "__main__":
     lite = False
-    file = '../DATA/videosinfo/Final_VideosData_merged.csv'
-    # file = 'DATA/Final_VideosData.csv'
+    file = '../DATA/videosdata_final.csv'
 
     if not lite:
         df = read_file(file, False)
@@ -58,4 +57,5 @@ if __name__ == "__main__":
 
 
         df_copy.to_csv('../DATA/Final_videosDataClean.csv', encoding='utf-8', index=False)
-        print('last: 276365-13856')
+        print('last2: 276365-13856')
+        print('last: 499039-20428')

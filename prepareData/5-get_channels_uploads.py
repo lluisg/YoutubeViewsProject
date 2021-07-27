@@ -11,7 +11,7 @@ import json
 from dotenv import load_dotenv
 load_dotenv()
 import os
-KEY = 1
+KEY = 4
 
 def get_key(KEY):
     print('Using key', KEY)
@@ -47,17 +47,17 @@ def youtube_playlist_data(channel_id, NUM_VIDEOS=20):
     if channel_uploadlist['pageInfo']['totalResults'] == 0:
         with open(path+'/list_channels_not'+str(KEY)+'.txt', 'a') as f:
             f.write(channel_id+'\n')
-        # print('-- 0 videos in this channel')
+        print('-- 0 videos in this channel')
         return None
     elif channel_uploadlist['items'][0]['statistics']['hiddenSubscriberCount'] == True:
         with open(path+'/list_channels_not'+str(KEY)+'.txt', 'a') as f:
             f.write(channel_id+'\n')
-        # print('-- channel subscribers hidden')
+        print('-- channel subscribers hidden')
         return None
     elif int(channel_uploadlist['items'][0]['statistics']['subscriberCount']) < 50000 :
         with open(path+'/list_channels_not'+str(KEY)+'.txt', 'a') as f:
             f.write(channel_id+'\n')
-        # print('-- channel with less than 50.000 subs')
+        print('-- channel with less than 50.000 subs')
         return None
 
     # Retrieving the "uploads" playlist Id from the channel
@@ -71,7 +71,7 @@ def youtube_playlist_data(channel_id, NUM_VIDEOS=20):
         if len(playlist_videos['items']) < 10 :
             with open(path+'/list_channels_not'+str(KEY)+'.txt', 'a') as f:
                 f.write(channel_id+'\n')
-            # print('-- channel with less than 10 uploads')
+            print('-- channel with less than 10 uploads')
             return None
         # print(len(playlist_videos['items']), 'videos in this channel')
 
@@ -99,50 +99,59 @@ def channel_videos_data(id_channel):
     video_info={}
 
     y_video_data = youtube_playlist_data(id_channel)
+
     if y_video_data is None:
         return None
     else:
         # iterating through videos data one by one
         for data in y_video_data:
-            video_info['channelId'] = data['snippet']['channelId']
-            video_info['id'] = data['id']
-            video_info['title'] = data['snippet']['title']
-            video_info['publishedAt'] = data['snippet']['publishedAt']
-            video_info['categoryId'] = data['snippet']['categoryId']
-            video_info['channelTitle'] = data['snippet']['channelTitle']
+            # print(videos[-1])
 
-            video_info['duration'] = data['contentDetails']['duration']
+            video_info['channelId'] = data['snippet']['channelId'].encode('latin1', 'ignore')
+            video_info['id'] = data['id'].encode('latin1', 'ignore')
+            video_info['title'] = data['snippet']['title'].encode('latin1', 'ignore')
+            video_info['publishedAt'] = data['snippet']['publishedAt'].encode('latin1', 'ignore')
+            video_info['categoryId'] = data['snippet']['categoryId'].encode('latin1', 'ignore')
+            video_info['channelTitle'] = data['snippet']['channelTitle'].encode('latin1', 'ignore')
+            video_info['duration'] = data['contentDetails']['duration'].encode('latin1', 'ignore')
 
             if "viewCount" in data['statistics']:
-                video_info['viewCount'] = data['statistics']['viewCount']
+                video_info['viewCount'] = data['statistics']['viewCount'].encode('latin1', 'ignore')
             else:
                 video_info['viewCount'] = None
+
             if "likeCount" in data['statistics']:
-                video_info['likeCount'] = data['statistics']['likeCount']
+                video_info['likeCount'] = data['statistics']['likeCount'].encode('latin1', 'ignore')
             else:
                 video_info['likeCount'] = None
+
             if "dislikeCount" in data['statistics']:
-                video_info['dislikeCount'] = data['statistics']['dislikeCount']
+                video_info['dislikeCount'] = data['statistics']['dislikeCount'].encode('latin1', 'ignore')
             else:
                 video_info['dislikeCount'] = None
+
             if "commentCount" in data['statistics']:
-                video_info['commentCount'] = data['statistics']['commentCount']
+                video_info['commentCount'] = data['statistics']['commentCount'].encode('latin1', 'ignore')
             else:
                 video_info['commentCount'] = None
+
             videos.append(video_info.copy())
 
     return videos
 
+def read_txt_file(file_path):
+    with open(file_path, 'r') as f:
+        content_i = f.readlines()
+    list_channels = [line.rstrip('\n') for line in content_i if line]
+    return list_channels
+
 def get_next_channel_index(file, lists_channels):
-    # df_movies = pd.read_csv('../DATA/channelID8M/videosID8M_final'+str(KEY)+'.csv', encoding = "ISO-8859-1")
     found = False
 
-    for index, row in file.iterrows():
-        chan = row['channelId']
+    for ind, chan in enumerate(file):
         chann_already = [chan in x for x in lists_channels]
         if True not in chann_already:
-            df_read = file.loc[file['channelId'] == chan]
-            index = df_read.index[0]
+            index = ind
             found = True
             break
     if not found:
@@ -155,63 +164,71 @@ if __name__ == "__main__":
     global path
 
     path = '../DATA/videosinfo'
-    file_name = path+'/Final_ChannelID'+str(KEY)+'.csv'
+    file_name = path+'/all_ChannelID'+str(KEY)+'.txt'
     # Retrieve the channels data from the DDBB
-    df_movies = pd.read_csv(file_name, encoding = "utf-8")
+    with open(file_name, 'r') as f:
+        df_channels = f.readlines()
+    df_channels = [x.rstrip() for x in df_channels]
 
-    output_name = path+'/Final_VideosData'+str(KEY)+'.csv'
+    output_name = path+'/videosdata'+str(KEY)+'.csv'
     # Creating pandas data frame appending to the previously obtained data
-    if os.path.isfile(output_name):
-        # df_previous = pd.read_csv('DATA/Final_VideosData.csv', encoding = "utf-8")
-        df_previous = pd.read_csv(output_name, encoding = "utf-8", lineterminator='\n')
-        list_videosinfo = df_previous['channelId'].tolist()
-    else:
-        print('Creating Final_VideosData file from 0')
-        list_videosinfo = []
+
+    assert not os.path.isfile(output_name), "if the output file is not empty you will lose info"
+    print('Creating videosdata file from 0')
+    list_videosinfo = []
+    df_previous = None
 
     # Get the index of the last element we obtained
     ids_alreadyfound = read_txt_file('../DATA/videosinfo/list_channels.txt')
     ids_alreadyincorrect = read_txt_file('../DATA/videosinfo/list_channels_not.txt')
     print('Previous ids obtained')
-    index = get_next_channel_index(df_movies, [ids_alreadyfound, ids_alreadyincorrect])
+    index = get_next_channel_index(df_channels, [ids_alreadyfound, ids_alreadyincorrect])
     print('Starting from: ', index)
 
     # Ask for the videos info for each channel
     number_days = 0
-    initial_index = 0
     while number_days < 365:
         print('DAY '+str(number_days)+':', datetime.now())
 
         api_key = get_key(KEY)
         got_correct = 0
         got_wrong = 0
+        list_dict_data = []
 
         try:
             while index != -1:
-                print('vid:', df.iloc[index])
-                video_id = df.iloc[index].values[1]
-                videos_list = channel_videos_data(video_id)
+                print('vid:', df_channels[index])
+                channel_id = df_channels[index]
+                videos_list = channel_videos_data(channel_id)
 
                 if videos_list is not None:
-                    list_videosinfo.append(videos_list['channelId'])
-                    print(videos_list)
-                    print(list_videosinfo)
-                    aa
-
-                    # Save into csv format in the desired location
-                    df_previous = pd.DataFrame(videos_list, , ignore_index=True)
-                    df_previous.to_csv(output_name, encoding='utf-8', index=False)
+                    list_dict_data.extend(videos_list)
                     got_correct += 1
 
                 else:
                     got_wrong += 1
 
-                index = get_next_channel_index(df)
+                if got_correct%10 == 1: #save some time only save every 100 channels
+                    # Save into csv format in the desired location
+                    df_previous = pd.DataFrame(list_dict_data)
+                    df_previous.to_csv(output_name, encoding='latin1', index=False)
+                    print('---------------------------------------------------saved at', got_correct, 'from index', index)
+
+                if (got_correct+got_wrong)%300 == 0:
+                    print(got_correct+got_wrong, 'channels got,', got_correct, 'got correct')
+
+                ids_found = read_txt_file('../DATA/videosinfo/list_channels'+str(KEY)+'.txt')
+                ids_incorrect = read_txt_file('../DATA/videosinfo/list_channels_not'+str(KEY)+'.txt')
+
+                index = get_next_channel_index(df_channels, \
+                    [ids_alreadyfound, ids_alreadyincorrect, ids_found, ids_incorrect])
+
         except HttpError:
             print('------  end of the usages for the key')
         except Exception as e:
-            print('-- another error ends usages for today')
-            # print(e)
+            print('-- theres an error on code, exception given with text:')
+            print(e)
+            print('end usages for today')
 
 
         print('Done for today: '+str(got_correct)+' videos correctly, '+str(got_wrong)+' wrongly')
