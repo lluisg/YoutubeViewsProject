@@ -25,12 +25,12 @@ I started collecting data around November 2020, although there have been some hi
 
 One thing to have in mind is that with the limitation of calls on the Youtube API, it is pretty slow to collect the channel uploaded videos information.
 
-**As of 21/01/2021:**
-I have compiled more than 80.000 unique channels from the original 3 sources.
+**As of 27/07/2021:**
+I have compiled more than 155.000 unique channels from the original 3 sources.
 
-From those channels, I collected information of more than 250.000 unique videos from more than 13.000 channels.
+From those channels, I collected information of more than 288.000 unique videos from more than 19.800 channels.
 
-And with those videos information I built a model that obtained predictions with 17.53% accuracy.
+And with those videos information I built a model that obtained predictions with 21.40% accuracy.
 
 This is not considered solving the problem, but it can indicate how complex is the problem.
 
